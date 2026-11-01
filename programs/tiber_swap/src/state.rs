@@ -157,6 +157,13 @@ impl Pool {
         self.hook_program.is_some() && self.hook_flags & flag != 0
     }
 
+    /// Whether the config's pause stops this pool's swaps and liquidity changes: every pool but
+    /// the launchpad's (the twins' pools), which no one can pause, so no key can stop their
+    /// holders selling (review finding 2).
+    pub fn pausable(&self) -> bool {
+        self.hook_program != Some(LAUNCHPAD_ID)
+    }
+
     /// Whether the protocol fee is a share of the hooks' cuts (a launch pool).
     pub fn shares_cuts(&self) -> bool {
         self.fee_model == FEE_MODEL_SHARE

@@ -6,8 +6,8 @@
 //!    and the wallets-only rule), creates the mint with the wall as its hook, mints all
 //!    1,000,000,000 tokens to the twin's account and drops the mint authority for good.
 //! 2. `open_curve`, once per twin: opens the twin's bonding curve on the Tiber exchange, with this
-//!    program as the pool's hook and 600,000,000 tokens in it. The other 400,000,000 stay with
-//!    the twin: 200,000,000 for the pool at graduation and 200,000,000 for the treasury.
+//!    program as the pool's hook and 712,500,000 tokens in it. The other 287,500,000 stay with
+//!    the twin: 237,500,000 for the pool at graduation and 50,000,000 for the treasury.
 //! 3. `link_twins`: makes each twin the other's sister, so each one's buy tax goes to the tithe
 //!    account that buys the other.
 //! 4. `open_trading`: opens both curves at the same moment.
@@ -19,7 +19,7 @@
 //! raised 30 SOL (or sold out) anyone may `graduate` it: the reserve tops the pool up so the price
 //! is unchanged, the exchange turns the curve into an ordinary pool whose LP lands in the twin's
 //! account, where nothing can move it, and the rest of the reserve is burned. The admin releases
-//! the treasury with `release_treasury`: 50,000,000 from the start, the other 150,000,000 six
+//! the treasury with `release_treasury`: 10,000,000 from the start, the other 40,000,000 six
 //! months after trading opens, and never more than 1,000,000 in one day.
 
 #![allow(unexpected_cfgs)]

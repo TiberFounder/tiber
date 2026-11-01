@@ -22,6 +22,22 @@ bash scripts/solana/programs.sh build
 cargo test --workspace
 ```
 
+## Mainnet launch checklist
+
+Steps outside the code that the website's promises depend on:
+
+1. Fresh keys for everything (program keypairs, deployer, admin), made and kept off any shared
+   machine and not funded straight from an exchange account in anyone's name.
+2. Before the twins' pools are created, the exchange config must have
+   `launch_protocol_share_bps: 0` (a pool keeps the share it was created with for life: anything
+   above 0 sends part of every buy tax to the fee collector instead of the tithe) and
+   `paused: false`.
+3. Right after deploying, move the upgrade authority of all five programs to a multisig (for
+   example Squads) of fresh keys that needs at least two of them to agree. The website says so.
+4. After the first weeks, once the twins have traded without trouble, remove upgrades for good
+   (`solana program set-upgrade-authority <program> --final`, through the multisig) and give up
+   each twin's metadata authority (`set_authority`, kind `Metadata`, to none).
+
 ## License
 
 Apache License 2.0; see `LICENSE` and `NOTICE`.

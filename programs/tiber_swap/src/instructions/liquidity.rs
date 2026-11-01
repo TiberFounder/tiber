@@ -108,7 +108,10 @@ fn prepare<'info>(
     quote_hook_accounts: u8,
     hook_data_len: usize,
 ) -> Result<Prepared<'info, 'info>> {
-    require!(!ctx.accounts.config.paused, SwapError::Paused);
+    require!(
+        !ctx.accounts.config.paused || !ctx.accounts.pool.pausable(),
+        SwapError::Paused
+    );
     require!(!ctx.accounts.pool.curve, SwapError::CurveLocked);
     require!(hook_data_len <= MAX_HOOK_DATA, SwapError::HookDataTooLong);
     let token = TokenAccounts {

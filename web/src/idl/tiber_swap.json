@@ -1306,6 +1306,11 @@
       "code": 6067,
       "name": "LaunchpadPoolNeedsLaunchpad",
       "msg": "a pool with the launchpad as its hook is created by the launchpad only"
+    },
+    {
+      "code": 6068,
+      "name": "DelegateOnHookedPool",
+      "msg": "on a pool with a hook the trader must own the input holding (a delegate may not swap)"
     }
   ],
   "types": [

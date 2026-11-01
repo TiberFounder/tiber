@@ -675,8 +675,8 @@ function Oath() {
     ["The wall", "No wallet may hold more than 15,000,000 of a twin (1.5%), and one buy can take at most 10,000,000 (1%). Only ordinary wallets can hold a twin, so every trade goes through the taxed pools."],
     ["The first thirty seconds", "The buy tax starts at 80% when trading opens and falls to 2% over 30 seconds, so bots gain nothing by being first. What they pay feeds the sister's tithe."],
     ["The treasury", "5% of each twin: 50,000,000. 10,000,000 can be used from launch; the other 40,000,000 are locked by code for six months after trading opens. At most 1,000,000 can leave the treasury on any day, ever. The other 95% goes to buyers: 71.25% on the curve and 23.75% into the pool at graduation."],
-    ["The curve", "Each twin starts on a bonding curve. At 30 SOL raised it graduates into a pool, and its liquidity is locked for good: nobody, the founder included, can pull it."],
-    ["Written in stone", "No one can mint more, freeze a holder, or change these rules. The programs enforce them, not a person."],
+    ["The curve", "Each twin starts on a bonding curve. At 30 SOL raised it graduates into a pool, and its liquidity is locked: the programs have no instruction that moves it, for anyone."],
+    ["Written in code", "No one can mint more, freeze a holder, or pause the twins' trading. The programs enforce these rules, not a person. For the first weeks after launch the programs can still be upgraded, so a bug can be fixed; that power sits with a multisig that needs several separate keys to agree. Then upgrades are switched off for good, which anyone can check on the explorer."],
   ];
   return (
     <section className="oath" aria-labelledby="oath-title">
@@ -727,6 +727,7 @@ function explain(e: any): string {
     OncePerSlot: "The tithe just ran; try again in a moment.",
     NothingToSpend: "The tithe fund is empty right now.",
     Slippage: "The price moved before your trade landed. Try again.",
+    DelegateOnHookedPool: "Only the wallet that owns the tokens can trade them here.",
   };
   if (code && known[code]) return known[code];
   if (/User rejected|rejected the request/i.test(text)) return "You cancelled it in your wallet.";

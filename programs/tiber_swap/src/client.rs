@@ -368,29 +368,6 @@ pub fn finalize_curve(
 
 
 
-/// The fixed keys of a `swap_v2`.
-pub struct SwapV2Keys {
-    /// The trader (pays a buy's SOL).
-    pub trader: Pubkey,
-    /// The pool (a native one).
-    pub pool: Pubkey,
-    /// Base mint.
-    pub base_mint: Pubkey,
-    /// The trader's base holding (or, on a buy, any holding of the base mint to deliver to).
-    pub trader_base: Pubkey,
-    /// On a buy the trader; on a sell any account to deliver the SOL to.
-    pub trader_quote: Pubkey,
-    /// The pool's hook program.
-    pub hook_program: Option<Pubkey>,
-    /// Pass the base mint writable (a hook may burn base).
-    pub base_mint_writable: bool,
-    /// Pass the bridge's accounts (and bridged SOL writable): needed when a quote-side cut names a
-    /// holding of bridged SOL, which is paid wrapped.
-    pub with_bridge: bool,
-}
-
-
-
 /// `collect_protocol_fees`: the pool's protocol fees (always in its quote token) to the holding of
 /// `fee_collector` (the config's) for the quote mint. `quote_hook` is the quote mint's token-hook
 /// slice ([`token_hook_slice`]; empty for a mint without a hook), as a swap passes it.
@@ -433,49 +410,6 @@ pub fn collect_protocol_fees(
 /// quote mint under its program.
 pub fn spl_vault_address(pool: &Pubkey, quote_mint: &Pubkey, quote_program: &Pubkey) -> Pubkey {
     crate::spl::associated_token_address(pool, quote_mint, quote_program)
-}
-
-/// The keys of `create_spl_pool` that the caller chooses.
-pub struct CreateSplPoolKeys {
-    /// Pays the rent and the creation fee.
-    pub payer: Pubkey,
-    /// Owns the base deposit's holding.
-    pub authority: Pubkey,
-    /// The config's treasury.
-    pub treasury: Pubkey,
-    /// Base mint (a Tiber mint).
-    pub base_mint: Pubkey,
-    /// Quote mint (SPL Token or Token-2022).
-    pub quote_mint: Pubkey,
-    /// The quote mint's program.
-    pub quote_program: Pubkey,
-    /// The hook program's hook authority (`["hook-authority"]` under `args.hook_program`), which
-    /// signs.
-    pub hook_caller: Pubkey,
-}
-
-
-/// The fixed keys of a `swap_spl`.
-pub struct SwapSplKeys {
-    /// The trader.
-    pub trader: Pubkey,
-    /// The pool (quoted in an SPL token).
-    pub pool: Pubkey,
-    /// Base mint.
-    pub base_mint: Pubkey,
-    /// Quote mint.
-    pub quote_mint: Pubkey,
-    /// The quote mint's program.
-    pub quote_program: Pubkey,
-    /// The trader's base holding (or, on a buy, any holding of the base mint to deliver to).
-    pub trader_base: Pubkey,
-    /// A token account of the quote mint: on a buy the trader's (it pays), on a sell any to
-    /// deliver to.
-    pub trader_quote: Pubkey,
-    /// The pool's hook program.
-    pub hook_program: Option<Pubkey>,
-    /// Pass the base mint writable (a hook may burn base).
-    pub base_mint_writable: bool,
 }
 
 /// Reads a pool from its account data.

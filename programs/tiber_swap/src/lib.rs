@@ -14,9 +14,12 @@
 //! so a token whose own hook takes a cut still prices correctly, and `min_amount_out` is checked
 //! against what the recipient's holding actually gained.
 //!
-//! A pool's quote is a Tiber mint, native SOL ([`native`]), or a real SPL Token or Token-2022
-//! mint ([`spl`], quote kind 2: a curve its hook creates with `create_spl_pool`, traded with
-//! `swap_spl`, its fees collected with `collect_protocol_fees_spl`; `docs/token-quotes.md`).
+//! A pool's quote is a Tiber mint (for the twins, bridged SOL). The instructions that opened
+//! native-SOL and SPL-quoted pools, swapped on them and converted pools between quote forms are
+//! not part of this program; `create_pool` opens neither kind, so the native and SPL branches
+//! [`native`] and [`spl`] still give `run_swap` are never taken. A pool with a hook trades only
+//! by its input holding's owner, and the admin's pause never stops the launchpad's (the twins')
+//! pools.
 //!
 //! Layout: [`state`], [`instructions`] (config, pool, liquidity, swap), [`hooks`] (pool hook CPIs
 //! and delta transfers), [`token`] (token standard CPIs), [`native`], [`spl`], [`events`],

@@ -135,108 +135,6 @@ pub struct Swap<'info> {
     pub token_event_authority: UncheckedAccount<'info>,
 }
 
-/// Accounts of `swap_v2`, a swap on a native pool: as `swap`'s, without the quote vault, with
-/// the trader's wallet as `trader_quote` (on a buy the trader itself, which pays; on a sell any
-/// account to deliver the lamports to), the System Program, and the bridge's accounts, needed
-/// only when a quote-side cut names a holding of bridged SOL (then the quote mint is passed
-/// writable). The remaining accounts are as `swap`'s.
-#[event_cpi]
-#[derive(Accounts)]
-pub struct SwapV2<'info> {
-    /// The trader: owner (or delegate) of the input holding; pays a buy's lamports.
-    #[account(mut)]
-    pub trader: Signer<'info>,
-    #[account(seeds = [CONFIG_SEED], bump = config.bump)]
-    pub config: Account<'info, Config>,
-    #[account(mut, constraint = pool.quote_native() @ SwapError::NotNativePool)]
-    pub pool: Account<'info, Pool>,
-    /// CHECK: address-checked; writable only for a burn of base.
-    #[account(address = pool.base_mint @ SwapError::WrongHolding)]
-    pub base_mint: UncheckedAccount<'info>,
-    /// CHECK: address-checked (bridged SOL); writable only to wrap a cut.
-    #[account(address = pool.quote_mint @ SwapError::WrongHolding)]
-    pub quote_mint: UncheckedAccount<'info>,
-    /// CHECK: address-checked.
-    #[account(mut, address = pool.base_vault @ SwapError::WrongVault)]
-    pub base_vault: UncheckedAccount<'info>,
-    /// CHECK: the trader's base holding, or on a buy any holding of the base mint to deliver to
-    /// (checked by the token program).
-    #[account(mut)]
-    pub trader_base: UncheckedAccount<'info>,
-    /// CHECK: on a buy the trader (checked in the handler); on a sell any account to deliver the
-    /// lamports to.
-    #[account(mut)]
-    pub trader_quote: UncheckedAccount<'info>,
-    /// CHECK: the pool's hook program (checked in the handler).
-    pub hook_program: Option<UncheckedAccount<'info>>,
-    /// CHECK: with a hook, this program's signer of its callbacks (checked in the handler).
-    pub hook_signer: Option<UncheckedAccount<'info>>,
-    /// CHECK: the token program.
-    pub token_program: UncheckedAccount<'info>,
-    /// CHECK: the token program's event authority.
-    pub token_event_authority: UncheckedAccount<'info>,
-    pub system_program: Program<'info, System>,
-    /// CHECK: the bridge (checked when used).
-    pub bridge_program: Option<UncheckedAccount<'info>>,
-    /// CHECK: the bridge's config (the bridge checks it).
-    pub bridge_config: Option<UncheckedAccount<'info>>,
-    /// CHECK: the SOL wrapper (the bridge checks it).
-    #[account(mut)]
-    pub sol_wrapper: Option<UncheckedAccount<'info>>,
-    /// CHECK: the bridge's SOL vault (the bridge checks it).
-    #[account(mut)]
-    pub sol_vault: Option<UncheckedAccount<'info>>,
-    /// CHECK: the bridge's event authority (the bridge checks it).
-    pub bridge_event_authority: Option<UncheckedAccount<'info>>,
-}
-
-/// Accounts of `swap_spl`, a swap on a pool quoted in an SPL Token or Token-2022 mint (quote kind
-/// 2, `crate::spl`): as `swap`'s, the quote vault being the pool's associated token account,
-/// `trader_quote` a token account of the quote mint (on a buy one the trader owns or is delegated;
-/// on a sell any account of the mint to deliver to), and the quote mint's program after the token
-/// program's accounts. The remaining accounts are as `swap`'s, the quote side's token-hook slice
-/// empty.
-#[event_cpi]
-#[derive(Accounts)]
-pub struct SwapSpl<'info> {
-    /// The trader: owner (or delegate) of the input account.
-    pub trader: Signer<'info>,
-    #[account(seeds = [CONFIG_SEED], bump = config.bump)]
-    pub config: Box<Account<'info, Config>>,
-    #[account(mut, constraint = pool.quote_spl() @ SwapError::NotSplPool)]
-    pub pool: Box<Account<'info, Pool>>,
-    /// CHECK: address-checked; writable only for a burn of base.
-    #[account(address = pool.base_mint @ SwapError::WrongHolding)]
-    pub base_mint: UncheckedAccount<'info>,
-    /// CHECK: address-checked.
-    #[account(address = pool.quote_mint @ SwapError::WrongHolding)]
-    pub quote_mint: UncheckedAccount<'info>,
-    /// CHECK: address-checked.
-    #[account(mut, address = pool.base_vault @ SwapError::WrongVault)]
-    pub base_vault: UncheckedAccount<'info>,
-    /// CHECK: address-checked.
-    #[account(mut, address = pool.quote_vault @ SwapError::WrongVault)]
-    pub quote_vault: UncheckedAccount<'info>,
-    /// CHECK: the trader's base holding, or on a buy any holding of the base mint to deliver to
-    /// (checked by the token program).
-    #[account(mut)]
-    pub trader_base: UncheckedAccount<'info>,
-    /// CHECK: a token account of the quote mint (checked in the handler and by its program).
-    #[account(mut)]
-    pub trader_quote: UncheckedAccount<'info>,
-    /// CHECK: the pool's hook program (checked in the handler).
-    pub hook_program: Option<UncheckedAccount<'info>>,
-    /// CHECK: with a hook, this program's signer of its callbacks (checked in the handler).
-    pub hook_signer: Option<UncheckedAccount<'info>>,
-    /// CHECK: the token program.
-    pub token_program: UncheckedAccount<'info>,
-    /// CHECK: the token program's event authority.
-    pub token_event_authority: UncheckedAccount<'info>,
-    /// CHECK: address-checked: the quote mint's program (SPL Token or Token-2022).
-    #[account(address = pool.spl_program() @ SwapError::WrongTokenProgram)]
-    pub quote_token_program: UncheckedAccount<'info>,
-}
-
 /// The native leg of a `swap_v2`.
 pub struct NativeLeg<'info> {
     /// The System Program.
@@ -306,101 +204,6 @@ pub fn process_swap<'info>(mut ctx: Context<'info, Swap<'info>>, args: SwapArgs)
     Ok(())
 }
 
-/// `swap_spl`.
-pub fn process_swap_spl<'info>(
-    mut ctx: Context<'info, SwapSpl<'info>>,
-    args: SwapArgs,
-) -> Result<()> {
-    let a = &mut ctx.accounts;
-    let decimals = a.pool.spl_decimals();
-    let core = SwapCore {
-        trader: a.trader.to_account_info(),
-        paused: a.config.paused,
-        pool: &mut a.pool,
-        base_mint: a.base_mint.to_account_info(),
-        quote_mint: a.quote_mint.to_account_info(),
-        base_vault: a.base_vault.to_account_info(),
-        quote_vault: Some(a.quote_vault.to_account_info()),
-        trader_base: a.trader_base.to_account_info(),
-        trader_quote: a.trader_quote.to_account_info(),
-        hook_program: a.hook_program.as_ref().map(|x| x.to_account_info()),
-        hook_signer: a.hook_signer.as_ref().map(|x| x.to_account_info()),
-        token: TokenAccounts {
-            program: a.token_program.to_account_info(),
-            event_authority: a.token_event_authority.to_account_info(),
-        },
-        native: None,
-        spl: Some(SplLeg {
-            token_program: a.quote_token_program.to_account_info(),
-            decimals,
-        }),
-        remaining: ctx.remaining_accounts,
-    };
-    let (swapped, _) = run_swap(core, args)?;
-    emit_cpi!(swapped);
-    Ok(())
-}
-
-/// `swap_v2`.
-pub fn process_swap_v2<'info>(
-    mut ctx: Context<'info, SwapV2<'info>>,
-    args: SwapArgs,
-) -> Result<()> {
-    let a = &mut ctx.accounts;
-    let info = |x: &Option<UncheckedAccount<'info>>| x.as_ref().map(|x| x.to_account_info());
-    let bridge = match (
-        info(&a.bridge_program),
-        info(&a.bridge_config),
-        info(&a.sol_wrapper),
-        info(&a.sol_vault),
-        info(&a.bridge_event_authority),
-    ) {
-        (Some(program), Some(config), Some(wrapper), Some(sol_vault), Some(event_authority)) => {
-            Some(BridgeSol {
-                program,
-                config,
-                wrapper,
-                sol_vault,
-                wrapped_mint: a.quote_mint.to_account_info(),
-                event_authority,
-                token_program: a.token_program.to_account_info(),
-                token_event_authority: a.token_event_authority.to_account_info(),
-                system_program: a.system_program.to_account_info(),
-            })
-        }
-        _ => None,
-    };
-    let core = SwapCore {
-        trader: a.trader.to_account_info(),
-        paused: a.config.paused,
-        pool: &mut a.pool,
-        base_mint: a.base_mint.to_account_info(),
-        quote_mint: a.quote_mint.to_account_info(),
-        base_vault: a.base_vault.to_account_info(),
-        quote_vault: None,
-        trader_base: a.trader_base.to_account_info(),
-        trader_quote: a.trader_quote.to_account_info(),
-        hook_program: info(&a.hook_program),
-        hook_signer: info(&a.hook_signer),
-        token: TokenAccounts {
-            program: a.token_program.to_account_info(),
-            event_authority: a.token_event_authority.to_account_info(),
-        },
-        native: Some(NativeLeg {
-            system_program: a.system_program.to_account_info(),
-            bridge,
-        }),
-        spl: None,
-        remaining: ctx.remaining_accounts,
-    };
-    let (swapped, native) = run_swap(core, args)?;
-    emit_cpi!(swapped);
-    if let Some(native) = native {
-        emit_cpi!(native);
-    }
-    Ok(())
-}
-
 /// A swap on `c` (see the module).
 pub fn run_swap<'info>(
     c: SwapCore<'_, 'info>,
@@ -417,7 +220,7 @@ pub fn run_swap<'info>(
     } = args;
     // What the swap uses: the whole input, or the part a fill names.
     let mut amount_in = requested;
-    require!(!c.paused, SwapError::Paused);
+    require!(!c.paused || !c.pool.pausable(), SwapError::Paused);
     require!(amount_in > 0, SwapError::ZeroAmount);
     require!(direction <= 1, SwapError::InvalidDirection);
     require!(hook_data.len() <= MAX_HOOK_DATA, SwapError::HookDataTooLong);
@@ -549,6 +352,17 @@ pub fn run_swap<'info>(
         [pool_info.clone(), base_mint, quote_mint, c.trader.clone()],
         pool_extras,
     )?;
+    // A pool hook is told the trader as the actor, and may price the swap by who that is (the
+    // twins' sell burn reads the actor's holding for how long its tokens were held). So on a pool
+    // with a hook the trader must own the holding the input leaves: a delegate, which could lend
+    // the swap another holding's history, may not swap there (review finding 1).
+    if call.is_some() && !native_in && !spl_in {
+        require_keys_eq!(
+            read_holding(&trader_in)?.owner,
+            *c.trader.key,
+            SwapError::DelegateOnHookedPool
+        );
+    }
     let pool: &Pool = pool_acc;
     let flags = pool.hook_flags;
     let mut hook_args = PoolHookArgs {

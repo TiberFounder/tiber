@@ -56,8 +56,8 @@ pub struct Twin {
 }
 
 impl Twin {
-    /// Treasury tokens unlocked at `now`: 50,000,000 from the moment trading opens, all
-    /// 200,000,000 from six months after; nothing before trading opens.
+    /// Treasury tokens unlocked at `now`: 10,000,000 from the moment trading opens, all
+    /// 50,000,000 from six months after; nothing before trading opens.
     pub fn treasury_unlocked(&self, now: i64) -> u64 {
         if self.opened_at == 0 || now < self.opened_at {
             0

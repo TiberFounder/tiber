@@ -142,6 +142,8 @@ pub enum SwapError {
     SplInvariant,
     #[msg("a pool with the launchpad as its hook is created by the launchpad only")]
     LaunchpadPoolNeedsLaunchpad,
+    #[msg("on a pool with a hook the trader must own the input holding (a delegate may not swap)")]
+    DelegateOnHookedPool,
 }
 
 /// The DEX's error for a swap the fees or the curve refuse.

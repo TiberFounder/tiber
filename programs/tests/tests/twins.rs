@@ -794,3 +794,100 @@ fn the_tithe_cannot_be_pointed_at_another_fund() {
     t.tithe(t.rem)
         .expect_code(code(tiber_tithe::TitheError::NothingToSpend));
 }
+/// The sale `seller` would send of `amount` of `mint`, signed by `signer` instead (as its
+/// delegate), with the burn's holding derived from the signer as the exchange derives it.
+fn delegated_sell(
+    t: &Twins,
+    seller: &Pubkey,
+    signer: &Pubkey,
+    mint: Pubkey,
+    amount: u64,
+) -> Instruction {
+    let spec = SwapSpec::new(*seller, tiber_twins::pool_address(&mint), 0, amount).burnable();
+    let mut ix = t.w.env.swap_ix(&spec);
+    let seller_holding = token::holding_address(&mint, seller);
+    for m in ix.accounts.iter_mut() {
+        if m.pubkey == *seller {
+            m.pubkey = *signer;
+        }
+    }
+    let last = ix
+        .accounts
+        .iter()
+        .rposition(|m| m.pubkey == seller_holding)
+        .unwrap();
+    ix.accounts[last].pubkey = token::holding_address(&mint, signer);
+    ix
+}
+
+#[test]
+fn a_delegate_may_not_sell_a_twin_for_its_owner() {
+    // A delegate with a 30-day-old position selling a fresh holder's tokens would lend the sale
+    // its loyal 1% burn; one with no position, the unknown 2%. The exchange refuses both: on a
+    // twin's pool only the owner of the tokens sells them.
+    let mut t = Twins::trading();
+    let old = t.trader(10 * SOL);
+    t.buy(&old, t.rom, SOL / 100).ok();
+    t.w.env.warp(31 * 86_400);
+    let fresh = t.trader(10 * SOL);
+    t.buy(&fresh, t.rom, SOL / 10).ok();
+    let held = t.balance(&t.rom, &fresh.pubkey());
+    let fresh_holding = token::holding_address(&t.rom, &fresh.pubkey());
+    let nobody = t.w.wallet_with_sol(SOL);
+    for delegate in [&old, &nobody] {
+        t.w.env
+            .send_paid_by(
+                &[token::approve(
+                    fresh.pubkey(),
+                    fresh_holding,
+                    delegate.pubkey(),
+                    held,
+                )],
+                &fresh,
+                &[],
+            )
+            .ok();
+        let ix = delegated_sell(&t, &fresh.pubkey(), &delegate.pubkey(), t.rom, held);
+        t.w.env
+            .send_paid_by(&[ix], delegate, &[])
+            .expect_code(code(tiber_swap::error::SwapError::DelegateOnHookedPool));
+    }
+    // The owner's own quick sale burns the full 5%.
+    let supply = t.w.env.read::<Mint>(&t.rom).supply;
+    t.sell(&fresh, t.rom, held).ok();
+    assert_eq!(supply - t.w.env.read::<Mint>(&t.rom).supply, held * 5 / 100);
+}
+
+#[test]
+fn pausing_the_exchange_does_not_stop_the_twins() {
+    let mut t = Twins::trading();
+    let trader = t.trader(10 * SOL);
+    t.buy(&trader, t.rom, SOL / 10).ok();
+    let admin = t.admin.pubkey();
+    let pause = swap::set_config(
+        admin,
+        tiber_swap::instructions::ConfigArgs {
+            admin,
+            protocol_fee_bps: policy::PROTOCOL_FEE_BPS,
+            launch_protocol_share_bps: 0,
+            fee_collector: admin,
+            treasury: t.w.env.treasury.pubkey(),
+            pool_creation_fee_lamports: 0,
+            paused: true,
+        },
+    );
+    let admin_kp = t.admin.insecure_clone();
+    t.w.env.send(&[pause], &[&admin_kp]).ok();
+    assert!(
+        t.w.env
+            .read::<tiber_swap::state::Config>(&DEX_CONFIG)
+            .paused
+    );
+    // Holders still buy and sell, and the tithe still runs.
+    t.buy(&trader, t.rom, SOL / 10).ok();
+    let held = t.balance(&t.rom, &trader.pubkey());
+    t.sell(&trader, t.rom, held / 2).ok();
+    t.init_buyers();
+    t.w.env.warp(1);
+    t.tithe(t.rem).ok();
+}
