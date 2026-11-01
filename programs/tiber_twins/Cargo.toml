@@ -1,0 +1,34 @@
+[package]
+name = "tiber-twins"
+description = "The twins program: creates Romulus (ROM) and Remus (REM), runs their bonding curves on the Tiber exchange as the pools' hook (the 2% buy tax for the sister, the 2% sell burn, the anti-sniper fee and the 1% buy limit), graduates each curve into a pool with liquidity locked for good, and releases the treasury on its schedule."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "tiber_twins"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "tiber-hook/idl-build", "tiber-token/idl-build", "tiber-swap/idl-build", "tiber-bridge/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+# A devnet build: more than two twins may be created, for fresh test pairs.
+devnet = []
+
+[dependencies]
+solana-security-txt = { workspace = true }
+anchor-lang = { workspace = true }
+tiber-core = { path = "../../crates/tiber-core" }
+tiber-hook = { path = "../../crates/tiber-hook" }
+tiber-token = { path = "../tiber_token", features = ["no-entrypoint"] }
+tiber-swap = { path = "../tiber_swap", features = ["no-entrypoint"] }
+tiber-bridge = { path = "../tiber_bridge", features = ["no-entrypoint"] }
+
+[lints]
+workspace = true

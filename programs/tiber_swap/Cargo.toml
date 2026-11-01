@@ -1,0 +1,33 @@
+[package]
+name = "tiber-swap"
+description = "The Tiber DEX: constant-product pools between Tiber Token Standard mints with Uniswap-v4-style hooks (before and after swaps and liquidity changes, with return deltas and dynamic fees), virtual reserves for launch curves, LP tokens on BTS and protocol fees."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "tiber_swap"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "tiber-hook/idl-build", "tiber-token/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+solana-security-txt = { workspace = true }
+anchor-lang = { workspace = true, features = ["event-cpi"] }
+tiber-core = { path = "../../crates/tiber-core" }
+tiber-hook = { path = "../../crates/tiber-hook" }
+tiber-token = { path = "../tiber_token", features = ["no-entrypoint"] }
+
+[dev-dependencies]
+tiber-bridge = { path = "../tiber_bridge", features = ["no-entrypoint"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,619 @@
+{
+  "address": "5WNWnM3JTDgDYkA4Mh7quKQXtkdiwF3d7bgc9RuX4KF",
+  "metadata": {
+    "name": "tiber_tithe",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "The tithe: spends each twin's brother fund buying the sister token on its pool, in small steps anyone may trigger, and burns every token it buys."
+  },
+  "instructions": [
+    {
+      "name": "init_buyer",
+      "docs": [
+        "Sets up the tithe for a twin (anyone may, once): its record and the buyer's holding of the",
+        "twin, where bought tokens land before they burn."
+      ],
+      "discriminator": [
+        170,
+        91,
+        154,
+        196,
+        66,
+        193,
+        24,
+        214
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "twin",
+          "docs": [
+            "The twin of the mint (owned by the twins program, at its `[\"twin\", mint]`)."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  119,
+                  105,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                9,
+                123,
+                7,
+                234,
+                32,
+                176,
+                1,
+                90,
+                153,
+                139,
+                76,
+                209,
+                165,
+                221,
+                64,
+                170,
+                37,
+                227,
+                50,
+                93,
+                151,
+                147,
+                182,
+                238,
+                223,
+                237,
+                196,
+                254,
+                202,
+                64,
+                87,
+                210
+              ]
+            }
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "buyer",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "buyer_holding",
+          "writable": true
+        },
+        {
+          "name": "state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
+        },
+        {
+          "name": "token_event_authority",
+          "address": "6wvuqfAqqPsvPm8pSm9SfXe5UrpDGZDg1UkY78nc82aM"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "tithe",
+      "docs": [
+        "Spends part of the twin's brother fund buying the twin, and burns what it bought."
+      ],
+      "discriminator": [
+        230,
+        202,
+        216,
+        27,
+        90,
+        116,
+        157,
+        171
+      ],
+      "accounts": [
+        {
+          "name": "cranker",
+          "docs": [
+            "Whoever triggers the tithe: pays only the transaction fee."
+          ],
+          "signer": true
+        },
+        {
+          "name": "twin",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  119,
+                  105,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                9,
+                123,
+                7,
+                234,
+                32,
+                176,
+                1,
+                90,
+                153,
+                139,
+                76,
+                209,
+                165,
+                221,
+                64,
+                170,
+                37,
+                227,
+                50,
+                93,
+                151,
+                147,
+                182,
+                238,
+                223,
+                237,
+                196,
+                254,
+                202,
+                64,
+                87,
+                210
+              ]
+            }
+          }
+        },
+        {
+          "name": "state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "buyer",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  98,
+                  117,
+                  121,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "fund",
+          "writable": true
+        },
+        {
+          "name": "buyer_holding",
+          "writable": true
+        },
+        {
+          "name": "quote_mint",
+          "address": "DEGQuyvqrovpU96X43pzimVTBQGnb53eAED5ykX21qwV"
+        },
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "base_vault",
+          "writable": true
+        },
+        {
+          "name": "quote_vault",
+          "writable": true
+        },
+        {
+          "name": "sister_fund",
+          "writable": true
+        },
+        {
+          "name": "dex_config",
+          "address": "2zKWppHPuF8ZtWSe7g9R1AqqNdajz2WnnZiV4SEYEuUW"
+        },
+        {
+          "name": "twins_program",
+          "address": "e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89"
+        },
+        {
+          "name": "dex_hook_signer",
+          "address": "EMJChUF5dQMsaPgPjBdZm4Nquy4cWy8i6zkBrFAdrtGu"
+        },
+        {
+          "name": "wall_program",
+          "address": "4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG"
+        },
+        {
+          "name": "wall_token_signer",
+          "address": "4PeArj6Z3uFjYmQ85LUPi9Rkcvy7ruoeJ9hgEbdEiZ3L"
+        },
+        {
+          "name": "wall"
+        },
+        {
+          "name": "token_program",
+          "address": "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
+        },
+        {
+          "name": "token_event_authority",
+          "address": "6wvuqfAqqPsvPm8pSm9SfXe5UrpDGZDg1UkY78nc82aM"
+        },
+        {
+          "name": "swap_program",
+          "address": "7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM"
+        },
+        {
+          "name": "dex_event_authority",
+          "address": "3BZ2RtLoTACKnDTM6UcpufRuv26zjtAZ8t911z5gEboV"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "TitheState",
+      "discriminator": [
+        91,
+        201,
+        52,
+        147,
+        252,
+        65,
+        186,
+        93
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "Tithed",
+      "discriminator": [
+        105,
+        122,
+        97,
+        79,
+        241,
+        58,
+        220,
+        178
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "WrongAccount",
+      "msg": "the account is not the one the tithe expects"
+    },
+    {
+      "code": 6001,
+      "name": "WrongProgram",
+      "msg": "a program the tithe calls is not the expected one"
+    },
+    {
+      "code": 6002,
+      "name": "OncePerSlot",
+      "msg": "this twin was already tithed in this slot"
+    },
+    {
+      "code": 6003,
+      "name": "NotOpen",
+      "msg": "trading is not open yet"
+    },
+    {
+      "code": 6004,
+      "name": "AwaitingGraduation",
+      "msg": "the curve is sold out and waiting to graduate"
+    },
+    {
+      "code": 6005,
+      "name": "NothingToSpend",
+      "msg": "the fund has nothing to spend"
+    }
+  ],
+  "types": [
+    {
+      "name": "TitheState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "buyer_bump",
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "last_slot",
+            "docs": [
+              "The last slot this twin was tithed in."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "spent",
+            "docs": [
+              "Running totals: SOL spent, tokens bought and burned, tithes made."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "burned",
+            "type": "u64"
+          },
+          {
+            "name": "tithes",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Tithed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "spent",
+            "type": "u64"
+          },
+          {
+            "name": "burned",
+            "type": "u64"
+          },
+          {
+            "name": "fund_left",
+            "type": "u64"
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Twin",
+      "docs": [
+        "`[\"twin\", mint]`: one twin."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool",
+            "docs": [
+              "The curve pool on the exchange, the only place the twin trades."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "buyer",
+            "docs": [
+              "This twin's buyer at the tithe (`[\"buyer\", mint]` under the tithe), which buys this twin",
+              "with the sister's buy tax. Its trades on the pool pay no tax and have no buy limit."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "holding",
+            "docs": [
+              "The twin's holding of its own token: the treasury and, until graduation, the reserve."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "lp_holding",
+            "docs": [
+              "The twin's holding of the pool's LP: locked for good (no instruction moves it)."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "sister",
+            "docs": [
+              "The sister twin's mint (default until linked)."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "sister_fund",
+            "docs": [
+              "The sister's buyer's bridged-SOL holding, where this twin's buy tax goes (default until",
+              "linked)."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "curve_open",
+            "docs": [
+              "Whether the curve pool exists."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "opened_at",
+            "docs": [
+              "When trading opened (0 until it does). Both twins open in the same instruction."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "graduated",
+            "docs": [
+              "Whether the curve graduated."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "graduated_at",
+            "type": "i64"
+          },
+          {
+            "name": "graduation_topup",
+            "docs": [
+              "Tokens the graduation top-up moved into the pool, and tokens it burned."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "graduation_burned",
+            "type": "u64"
+          },
+          {
+            "name": "treasury_released",
+            "docs": [
+              "Treasury tokens released so far."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "release_day",
+            "docs": [
+              "The day (since trading opened) of the last release, and what was released on it."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "released_today",
+            "type": "u64"
+          },
+          {
+            "name": "buy_tax_paid",
+            "docs": [
+              "Running totals, for display: SOL paid to the sister's buyer, tokens burned on sells."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "sell_burned",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}

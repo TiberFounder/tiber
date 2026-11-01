@@ -1,0 +1,34 @@
+[package]
+name = "tiber-program-tests"
+description = "LiteSVM host tests for the Tiber programs; they load the .so files built by scripts/solana/programs.sh build."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+# Host-only: no cdylib target, so cargo build-sbf never builds this crate.
+[dependencies]
+anchor-lang.workspace = true
+litesvm.workspace = true
+tiber-core = { path = "../../crates/tiber-core" }
+tiber-hook = { path = "../../crates/tiber-hook" }
+tiber-token = { path = "../tiber_token", features = ["no-entrypoint"] }
+tiber-swap = { path = "../tiber_swap", features = ["no-entrypoint"] }
+tiber-bridge = { path = "../tiber_bridge", features = ["no-entrypoint"] }
+tax-hook = { path = "../tax_hook", features = ["no-entrypoint"] }
+hook-tester = { path = "../hook_tester", features = ["no-entrypoint"] }
+tiber-twins = { path = "../tiber_twins", features = ["no-entrypoint"] }
+tiber-tithe = { path = "../tiber_tithe", features = ["no-entrypoint"] }
+# sha256 of a program's code (the executable hash), as solana-verify computes it.
+solana-sha256-hasher = { version = "=3.1.0", features = ["sha2"] }
+agave-reserved-account-keys = "=4.3.0"
+solana-account = "=4.7.0"
+solana-hash.workspace = true
+solana-keypair.workspace = true
+solana-message = { workspace = true, features = ["wincode"] }
+solana-rent.workspace = true
+solana-signature.workspace = true
+solana-signer.workspace = true
+solana-transaction = { workspace = true, features = ["wincode"] }
+
+[lints]
+workspace = true

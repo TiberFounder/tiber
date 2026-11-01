@@ -1,0 +1,1632 @@
+{
+  "address": "e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89",
+  "metadata": {
+    "name": "tiber_twins",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "The twins program: creates Romulus (ROM) and Remus (REM), runs their bonding curves on the Tiber exchange as the pools' hook (the 2% buy tax for the sister, the 2% sell burn, the anti-sniper fee and the 1% buy limit), graduates each curve into a pool with liquidity locked for good, and releases the treasury on its schedule."
+  },
+  "instructions": [
+    {
+      "name": "after_swap",
+      "docs": [
+        "The exchange's callback after every swap on a twin's pool."
+      ],
+      "discriminator": [
+        235,
+        215,
+        232,
+        183,
+        152,
+        109,
+        5,
+        35
+      ],
+      "accounts": [
+        {
+          "name": "hook_signer",
+          "docs": [
+            "exchange can sign for it, so the arguments are the exchange's."
+          ],
+          "signer": true,
+          "address": "EMJChUF5dQMsaPgPjBdZm4Nquy4cWy8i6zkBrFAdrtGu"
+        },
+        {
+          "name": "pool"
+        },
+        {
+          "name": "base_mint"
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "actor"
+        },
+        {
+          "name": "twin",
+          "writable": true
+        },
+        {
+          "name": "sister_fund",
+          "docs": [
+            "is a writable holding of the quote before paying it."
+          ],
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": {
+              "name": "PoolHookArgs"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "before_initialize",
+      "docs": [
+        "The exchange's callback when someone creates a pool with this program as its hook: always",
+        "refused (only this program opens a twin's pool, and the exchange skips the callback then)."
+      ],
+      "discriminator": [
+        34,
+        92,
+        163,
+        44,
+        187,
+        213,
+        131,
+        15
+      ],
+      "accounts": [
+        {
+          "name": "hook_signer",
+          "signer": true,
+          "address": "EMJChUF5dQMsaPgPjBdZm4Nquy4cWy8i6zkBrFAdrtGu"
+        },
+        {
+          "name": "pool"
+        },
+        {
+          "name": "base_mint"
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "actor"
+        }
+      ],
+      "args": [
+        {
+          "name": "_args",
+          "type": {
+            "defined": {
+              "name": "PoolHookArgs"
+            }
+          }
+        }
+      ],
+      "returns": {
+        "defined": {
+          "name": "HookReturn"
+        }
+      }
+    },
+    {
+      "name": "before_swap",
+      "docs": [
+        "The exchange's callback before every swap on a twin's pool."
+      ],
+      "discriminator": [
+        227,
+        59,
+        240,
+        68,
+        164,
+        9,
+        29,
+        254
+      ],
+      "accounts": [
+        {
+          "name": "hook_signer",
+          "docs": [
+            "exchange can sign for it, so the arguments are the exchange's."
+          ],
+          "signer": true,
+          "address": "EMJChUF5dQMsaPgPjBdZm4Nquy4cWy8i6zkBrFAdrtGu"
+        },
+        {
+          "name": "pool"
+        },
+        {
+          "name": "base_mint"
+        },
+        {
+          "name": "quote_mint"
+        },
+        {
+          "name": "actor"
+        },
+        {
+          "name": "twin",
+          "writable": true
+        },
+        {
+          "name": "sister_fund",
+          "docs": [
+            "is a writable holding of the quote before paying it."
+          ],
+          "writable": true
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": {
+              "name": "PoolHookArgs"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_twin",
+      "docs": [
+        "Step 1 (see the module docs)."
+      ],
+      "discriminator": [
+        197,
+        240,
+        237,
+        153,
+        111,
+        244,
+        86,
+        203
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "twin",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  119,
+                  105,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "twin_holding",
+          "writable": true
+        },
+        {
+          "name": "twins_authority",
+          "address": "9BPBHJSWcoySEgovPzqxsbPC8vbWWtAS3NcL9eKosxcs"
+        },
+        {
+          "name": "wall_program",
+          "address": "4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG"
+        },
+        {
+          "name": "wall",
+          "writable": true
+        },
+        {
+          "name": "wall_registry",
+          "writable": true
+        },
+        {
+          "name": "wall_token_signer",
+          "address": "4PeArj6Z3uFjYmQ85LUPi9Rkcvy7ruoeJ9hgEbdEiZ3L"
+        },
+        {
+          "name": "token_program",
+          "address": "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
+        },
+        {
+          "name": "token_event_authority",
+          "address": "6wvuqfAqqPsvPm8pSm9SfXe5UrpDGZDg1UkY78nc82aM"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "args",
+          "type": {
+            "defined": {
+              "name": "CreateTwinArgs"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "graduate",
+      "docs": [
+        "Graduates a curve that has raised its target (anyone may call it)."
+      ],
+      "discriminator": [
+        45,
+        235,
+        225,
+        181,
+        17,
+        218,
+        64,
+        130
+      ],
+      "accounts": [
+        {
+          "name": "cranker",
+          "signer": true
+        },
+        {
+          "name": "twin",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  119,
+                  105,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint",
+          "writable": true
+        },
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "twin_holding",
+          "writable": true
+        },
+        {
+          "name": "base_vault",
+          "writable": true
+        },
+        {
+          "name": "quote_vault"
+        },
+        {
+          "name": "lp_mint",
+          "writable": true
+        },
+        {
+          "name": "twin_lp",
+          "writable": true
+        },
+        {
+          "name": "twins_authority",
+          "address": "9BPBHJSWcoySEgovPzqxsbPC8vbWWtAS3NcL9eKosxcs"
+        },
+        {
+          "name": "wall_program",
+          "address": "4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG"
+        },
+        {
+          "name": "wall_token_signer",
+          "address": "4PeArj6Z3uFjYmQ85LUPi9Rkcvy7ruoeJ9hgEbdEiZ3L"
+        },
+        {
+          "name": "wall"
+        },
+        {
+          "name": "token_program",
+          "address": "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
+        },
+        {
+          "name": "token_event_authority",
+          "address": "6wvuqfAqqPsvPm8pSm9SfXe5UrpDGZDg1UkY78nc82aM"
+        },
+        {
+          "name": "swap_program",
+          "address": "7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM"
+        },
+        {
+          "name": "dex_event_authority",
+          "address": "3BZ2RtLoTACKnDTM6UcpufRuv26zjtAZ8t911z5gEboV"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "init_config",
+      "docs": [
+        "Creates the config; only this program's upgrade authority may."
+      ],
+      "discriminator": [
+        23,
+        235,
+        115,
+        232,
+        168,
+        96,
+        1,
+        231
+      ],
+      "accounts": [
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "config",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "program_data"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "admin",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "link_twins",
+      "docs": [
+        "Step 3."
+      ],
+      "discriminator": [
+        238,
+        172,
+        160,
+        191,
+        87,
+        67,
+        85,
+        135
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "twin_a",
+          "writable": true
+        },
+        {
+          "name": "twin_b",
+          "writable": true
+        },
+        {
+          "name": "quote_mint",
+          "address": "DEGQuyvqrovpU96X43pzimVTBQGnb53eAED5ykX21qwV"
+        },
+        {
+          "name": "fund_a",
+          "writable": true
+        },
+        {
+          "name": "fund_b",
+          "writable": true
+        },
+        {
+          "name": "buyer_a"
+        },
+        {
+          "name": "buyer_b"
+        },
+        {
+          "name": "registry_a",
+          "writable": true
+        },
+        {
+          "name": "registry_b",
+          "writable": true
+        },
+        {
+          "name": "token_program",
+          "address": "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
+        },
+        {
+          "name": "token_event_authority",
+          "address": "6wvuqfAqqPsvPm8pSm9SfXe5UrpDGZDg1UkY78nc82aM"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "open_curve",
+      "docs": [
+        "Step 2."
+      ],
+      "discriminator": [
+        174,
+        0,
+        214,
+        215,
+        229,
+        42,
+        77,
+        61
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "twin",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  119,
+                  105,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "quote_mint",
+          "address": "DEGQuyvqrovpU96X43pzimVTBQGnb53eAED5ykX21qwV"
+        },
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "lp_mint",
+          "docs": [
+            "checks (the twin's token holding is address-checked)."
+          ],
+          "writable": true
+        },
+        {
+          "name": "base_vault",
+          "writable": true
+        },
+        {
+          "name": "quote_vault",
+          "writable": true
+        },
+        {
+          "name": "twin_holding",
+          "writable": true
+        },
+        {
+          "name": "twin_quote",
+          "writable": true
+        },
+        {
+          "name": "twin_lp",
+          "writable": true
+        },
+        {
+          "name": "dex_config",
+          "writable": true,
+          "address": "2zKWppHPuF8ZtWSe7g9R1AqqNdajz2WnnZiV4SEYEuUW"
+        },
+        {
+          "name": "dex_treasury",
+          "writable": true
+        },
+        {
+          "name": "twins_authority",
+          "address": "9BPBHJSWcoySEgovPzqxsbPC8vbWWtAS3NcL9eKosxcs"
+        },
+        {
+          "name": "dex_hook_signer",
+          "address": "EMJChUF5dQMsaPgPjBdZm4Nquy4cWy8i6zkBrFAdrtGu"
+        },
+        {
+          "name": "wall_program",
+          "address": "4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG"
+        },
+        {
+          "name": "wall_token_signer",
+          "address": "4PeArj6Z3uFjYmQ85LUPi9Rkcvy7ruoeJ9hgEbdEiZ3L"
+        },
+        {
+          "name": "wall"
+        },
+        {
+          "name": "token_program",
+          "address": "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
+        },
+        {
+          "name": "token_event_authority",
+          "address": "6wvuqfAqqPsvPm8pSm9SfXe5UrpDGZDg1UkY78nc82aM"
+        },
+        {
+          "name": "swap_program",
+          "address": "7nUWnHYtqgLv2sevNxxVBVqZSKd5VZqLBTWbf7un3kSM"
+        },
+        {
+          "name": "dex_event_authority",
+          "address": "3BZ2RtLoTACKnDTM6UcpufRuv26zjtAZ8t911z5gEboV"
+        },
+        {
+          "name": "twins_program",
+          "address": "e1UkVXrsWoQW97Yw8eCP1NJ3kcdqLYNgwQwidL7Lg89"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "open_trading",
+      "docs": [
+        "Step 4."
+      ],
+      "discriminator": [
+        248,
+        79,
+        225,
+        158,
+        86,
+        244,
+        239,
+        139
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "twin_a",
+          "writable": true
+        },
+        {
+          "name": "twin_b",
+          "writable": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "release_treasury",
+      "docs": [
+        "Releases `amount` of a twin's treasury to `destination` (a holding of the twin, which the",
+        "wall still holds to the 1.5% cap and the wallets-only rule)."
+      ],
+      "discriminator": [
+        90,
+        66,
+        247,
+        38,
+        51,
+        29,
+        74,
+        88
+      ],
+      "accounts": [
+        {
+          "name": "admin",
+          "signer": true,
+          "relations": [
+            "config"
+          ]
+        },
+        {
+          "name": "config",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  110,
+                  102,
+                  105,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "twin",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  119,
+                  105,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "twin_holding",
+          "writable": true
+        },
+        {
+          "name": "destination",
+          "writable": true
+        },
+        {
+          "name": "wall_program",
+          "address": "4WXBYj7efT8SYhRxacekrp2zgmqoPnyGQifE6obRGLeG"
+        },
+        {
+          "name": "wall_token_signer",
+          "address": "4PeArj6Z3uFjYmQ85LUPi9Rkcvy7ruoeJ9hgEbdEiZ3L"
+        },
+        {
+          "name": "wall"
+        },
+        {
+          "name": "token_program",
+          "address": "CFW2Z5J3dXwRXJzpxxfZiTc27KXuggDyzfZU7L6B6a8e"
+        },
+        {
+          "name": "token_event_authority",
+          "address": "6wvuqfAqqPsvPm8pSm9SfXe5UrpDGZDg1UkY78nc82aM"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Config",
+      "discriminator": [
+        155,
+        12,
+        170,
+        224,
+        30,
+        250,
+        204,
+        130
+      ]
+    },
+    {
+      "name": "Twin",
+      "discriminator": [
+        79,
+        84,
+        198,
+        82,
+        142,
+        130,
+        165,
+        102
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "Graduated",
+      "discriminator": [
+        51,
+        241,
+        66,
+        50,
+        140,
+        245,
+        156,
+        192
+      ]
+    },
+    {
+      "name": "TradingOpened",
+      "discriminator": [
+        48,
+        149,
+        100,
+        42,
+        246,
+        90,
+        132,
+        153
+      ]
+    },
+    {
+      "name": "TreasuryReleased",
+      "discriminator": [
+        234,
+        50,
+        197,
+        11,
+        151,
+        23,
+        67,
+        157
+      ]
+    },
+    {
+      "name": "TwinCreated",
+      "discriminator": [
+        111,
+        246,
+        110,
+        223,
+        159,
+        200,
+        9,
+        102
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "NotUpgradeAuthority",
+      "msg": "only this program's upgrade authority may create the config"
+    },
+    {
+      "code": 6001,
+      "name": "NotAdmin",
+      "msg": "only the admin may do this"
+    },
+    {
+      "code": 6002,
+      "name": "TooManyTwins",
+      "msg": "both twins already exist"
+    },
+    {
+      "code": 6003,
+      "name": "WrongAccount",
+      "msg": "the account is not the one this twin expects"
+    },
+    {
+      "code": 6004,
+      "name": "WrongProgram",
+      "msg": "a program this instruction calls is not the expected one"
+    },
+    {
+      "code": 6005,
+      "name": "CurveExists",
+      "msg": "the twin's curve already exists"
+    },
+    {
+      "code": 6006,
+      "name": "NoCurve",
+      "msg": "the twin's curve does not exist yet"
+    },
+    {
+      "code": 6007,
+      "name": "AlreadyLinked",
+      "msg": "the twins are already linked"
+    },
+    {
+      "code": 6008,
+      "name": "SameTwin",
+      "msg": "a twin cannot be its own sister"
+    },
+    {
+      "code": 6009,
+      "name": "NotLinked",
+      "msg": "the twins are not linked yet"
+    },
+    {
+      "code": 6010,
+      "name": "AlreadyOpen",
+      "msg": "trading is already open"
+    },
+    {
+      "code": 6011,
+      "name": "NotOpen",
+      "msg": "trading is not open yet"
+    },
+    {
+      "code": 6012,
+      "name": "BadHookSigner",
+      "msg": "the hook signer is not the exchange's signer for this program"
+    },
+    {
+      "code": 6013,
+      "name": "OnlyTwinsCreatePools",
+      "msg": "only the twins program opens a twin's pool"
+    },
+    {
+      "code": 6014,
+      "name": "WrongPool",
+      "msg": "the pool is not this twin's"
+    },
+    {
+      "code": 6015,
+      "name": "BuyTooLarge",
+      "msg": "one swap may buy at most 1% of the supply"
+    },
+    {
+      "code": 6016,
+      "name": "AlreadyGraduated",
+      "msg": "the curve has already graduated"
+    },
+    {
+      "code": 6017,
+      "name": "NotReady",
+      "msg": "the curve has not raised its target yet"
+    },
+    {
+      "code": 6018,
+      "name": "ZeroAmount",
+      "msg": "the amount is zero"
+    },
+    {
+      "code": 6019,
+      "name": "TreasuryLocked",
+      "msg": "those treasury tokens are still locked"
+    },
+    {
+      "code": 6020,
+      "name": "DailyLimit",
+      "msg": "the treasury may release at most 1,000,000 tokens a day"
+    },
+    {
+      "code": 6021,
+      "name": "MathOverflow",
+      "msg": "math overflow"
+    }
+  ],
+  "types": [
+    {
+      "name": "Config",
+      "docs": [
+        "`[\"config\"]`: who may create, link and open the twins and release their treasuries. Created",
+        "once, by this program's upgrade authority."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "twins",
+            "docs": [
+              "Twins created (at most two: Romulus and Remus)."
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CreateTwinArgs",
+      "docs": [
+        "Arguments of `create_twin`: the token's metadata."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "symbol",
+            "type": "string"
+          },
+          {
+            "name": "uri",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Delta",
+      "docs": [
+        "One cut an answer takes from the amount."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "amount",
+            "docs": [
+              "How much (above zero)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "account",
+            "docs": [
+              "Index in the callback's account list (prefix first, then extras) of the holding that",
+              "receives it. Must be an extra."
+            ],
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Graduated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "topup",
+            "type": "u64"
+          },
+          {
+            "name": "burned",
+            "type": "u64"
+          },
+          {
+            "name": "lp_locked",
+            "type": "u64"
+          },
+          {
+            "name": "ts",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "HookReturn",
+      "docs": [
+        "What a callback may answer in its return data. Which fields a callback may fill depends on the",
+        "callback and the flags ([`Allowed`]); the calling program refuses an answer that fills any",
+        "other field."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "deltas",
+            "docs": [
+              "Cuts from the amount (the transfer; a swap's input before, its output after), at most",
+              "[`MAX_DELTAS`]."
+            ],
+            "type": {
+              "vec": {
+                "defined": {
+                  "name": "Delta"
+                }
+              }
+            }
+          },
+          {
+            "name": "burn",
+            "docs": [
+              "Pool swap callbacks only: an amount to burn from the same side."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "lp_fee_bps",
+            "docs": [
+              "`before_swap` only: the LP fee to apply instead of the pool's."
+            ],
+            "type": {
+              "option": "u16"
+            }
+          },
+          {
+            "name": "source_hook_data",
+            "docs": [
+              "Token callbacks only (`before_transfer`, `before_burn`): the source holding's new hook data",
+              "([`HOOK_DATA_LEN`] bytes)."
+            ],
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  64
+                ]
+              }
+            }
+          },
+          {
+            "name": "destination_hook_data",
+            "docs": [
+              "Token callbacks only (`before_transfer`, `before_mint`): the destination holding's new hook",
+              "data."
+            ],
+            "type": {
+              "option": {
+                "array": [
+                  "u8",
+                  64
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Phase",
+      "docs": [
+        "Before or after the operation."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Before"
+          },
+          {
+            "name": "After"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolHookArgs",
+      "docs": [
+        "Arguments of a pool hook callback."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "op",
+            "docs": [
+              "The operation."
+            ],
+            "type": {
+              "defined": {
+                "name": "PoolOp"
+              }
+            }
+          },
+          {
+            "name": "phase",
+            "docs": [
+              "Before or after it."
+            ],
+            "type": {
+              "defined": {
+                "name": "Phase"
+              }
+            }
+          },
+          {
+            "name": "pool",
+            "docs": [
+              "The pool."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "base_mint",
+            "docs": [
+              "Base mint."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "quote_mint",
+            "docs": [
+              "Quote mint."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "actor",
+            "docs": [
+              "The trader or liquidity provider."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "recipient",
+            "docs": [
+              "Who receives: for a swap the owner of the holding the output is delivered to; for liquidity",
+              "the owner of the receiving holding (the LP holding on add, the base holding on remove); the",
+              "default key on initialize."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "direction",
+            "docs": [
+              "Swap direction: 0 base → quote (a sell), 1 quote → base (a buy)."
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "amount_in",
+            "docs": [
+              "Swap input (after any before-delta, before fees); liquidity base amount."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "amount_out",
+            "docs": [
+              "Swap output (known after); liquidity quote amount."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "base_reserve",
+            "docs": [
+              "Real base reserve."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "quote_reserve",
+            "docs": [
+              "Real quote reserve."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "virtual_base",
+            "docs": [
+              "Virtual base offset."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "virtual_quote",
+            "docs": [
+              "Virtual quote offset."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "lp_fee_bps",
+            "docs": [
+              "The pool's LP fee (after a swap: the fee actually applied)."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "protocol_fee_bps",
+            "docs": [
+              "The pool's protocol fee."
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "swap_count",
+            "docs": [
+              "Swaps so far (before this one)."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "created_at",
+            "docs": [
+              "Pool creation time."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "lp_amount",
+            "docs": [
+              "LP amount of a liquidity operation."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "hook_data",
+            "docs": [
+              "Opaque data from the caller (v4's `hookData`)."
+            ],
+            "type": "bytes"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolOp",
+      "docs": [
+        "What a pool hook is being told about."
+      ],
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Initialize"
+          },
+          {
+            "name": "AddLiquidity"
+          },
+          {
+            "name": "RemoveLiquidity"
+          },
+          {
+            "name": "Swap"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TradingOpened",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "twin_a",
+            "type": "pubkey"
+          },
+          {
+            "name": "twin_b",
+            "type": "pubkey"
+          },
+          {
+            "name": "ts",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TreasuryReleased",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "destination",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "released",
+            "type": "u64"
+          },
+          {
+            "name": "ts",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Twin",
+      "docs": [
+        "`[\"twin\", mint]`: one twin."
+      ],
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool",
+            "docs": [
+              "The curve pool on the exchange, the only place the twin trades."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "buyer",
+            "docs": [
+              "This twin's buyer at the tithe (`[\"buyer\", mint]` under the tithe), which buys this twin",
+              "with the sister's buy tax. Its trades on the pool pay no tax and have no buy limit."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "holding",
+            "docs": [
+              "The twin's holding of its own token: the treasury and, until graduation, the reserve."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "lp_holding",
+            "docs": [
+              "The twin's holding of the pool's LP: locked for good (no instruction moves it)."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "sister",
+            "docs": [
+              "The sister twin's mint (default until linked)."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "sister_fund",
+            "docs": [
+              "The sister's buyer's bridged-SOL holding, where this twin's buy tax goes (default until",
+              "linked)."
+            ],
+            "type": "pubkey"
+          },
+          {
+            "name": "curve_open",
+            "docs": [
+              "Whether the curve pool exists."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "opened_at",
+            "docs": [
+              "When trading opened (0 until it does). Both twins open in the same instruction."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "graduated",
+            "docs": [
+              "Whether the curve graduated."
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "graduated_at",
+            "type": "i64"
+          },
+          {
+            "name": "graduation_topup",
+            "docs": [
+              "Tokens the graduation top-up moved into the pool, and tokens it burned."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "graduation_burned",
+            "type": "u64"
+          },
+          {
+            "name": "treasury_released",
+            "docs": [
+              "Treasury tokens released so far."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "release_day",
+            "docs": [
+              "The day (since trading opened) of the last release, and what was released on it."
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "released_today",
+            "type": "u64"
+          },
+          {
+            "name": "buy_tax_paid",
+            "docs": [
+              "Running totals, for display: SOL paid to the sister's buyer, tokens burned on sells."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "sell_burned",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TwinCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "twin",
+            "type": "pubkey"
+          },
+          {
+            "name": "pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "buyer",
+            "type": "pubkey"
+          }
+        ]
+      }
+    }
+  ]
+}

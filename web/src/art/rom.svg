@@ -1,0 +1,26 @@
+<svg viewBox="0 0 560 560" role="img" aria-label="Romulus coin: twelve vultures over a temple on the Palatine hill, with the ticker ROM">
+<defs>
+<path id="rom-romRing" d="M 280,280 m -205,0 a 205,205 0 1,1 410,0 a 205,205 0 1,1 -410,0"></path>
+</defs>
+<circle cx="280" cy="280" r="276" fill="#B07A3A"></circle>
+<circle cx="280" cy="280" r="266" fill="#8A5A2B"></circle>
+<circle cx="280" cy="280" r="254" fill="none" stroke="#E3C08A" stroke-width="5" stroke-dasharray="0.1 11" stroke-linecap="round"></circle>
+<circle cx="280" cy="280" r="242" fill="#8E1B1B"></circle>
+<circle cx="280" cy="280" r="232" fill="none" stroke="#E3C08A" stroke-opacity="0.5" stroke-width="1.5"></circle>
+<text font-family="Cinzel, serif" font-size="34" font-weight="700" letter-spacing="6" fill="#F3D9A4"><textPath href="#rom-romRing" startOffset="25%" text-anchor="middle">ROMVLVS · PALATINVM</textPath></text>
+<g fill="none" stroke="#F3D9A4" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+<path transform="translate(159.7 256.2) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(172.3 230.8) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(190.2 208.8) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(212.5 191.2) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(238.1 179.0) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(265.8 172.8) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(294.2 172.8) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(321.9 179.0) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(347.5 191.2) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(369.8 208.8) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(387.7 230.8) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(400.3 256.2) scale(1.00)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path>
+</g>
+<path d="M 120 400 C 170 332, 228 300, 280 296 C 332 300, 390 332, 440 400 Z" fill="#5E1010"></path>
+<g fill="#F3D9A4">
+<polygon points="238,252 280,232 322,252"></polygon>
+<rect x="240" y="252" width="80" height="6"></rect>
+<rect x="246" y="258" width="7" height="30"></rect>
+<rect x="263" y="258" width="7" height="30"></rect>
+<rect x="290" y="258" width="7" height="30"></rect>
+<rect x="307" y="258" width="7" height="30"></rect>
+<rect x="236" y="288" width="88" height="7"></rect>
+</g>
+<text x="280" y="468" font-family="Cinzel, serif" font-size="64" font-weight="700" letter-spacing="8" fill="#F3D9A4" text-anchor="middle">ROM</text>
+<text x="280" y="504" font-family="Cinzel, serif" font-size="22" font-weight="500" letter-spacing="10" fill="#E3C08A" text-anchor="middle">XII</text>
+</svg>

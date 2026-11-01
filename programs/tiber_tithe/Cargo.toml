@@ -1,0 +1,33 @@
+[package]
+name = "tiber-tithe"
+description = "The tithe: spends each twin's brother fund buying the sister token on its pool, in small steps anyone may trigger, and burns every token it buys."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "tiber_tithe"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "tiber-hook/idl-build", "tiber-token/idl-build", "tiber-swap/idl-build", "tiber-twins/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+solana-security-txt = { workspace = true }
+anchor-lang = { workspace = true }
+tiber-core = { path = "../../crates/tiber-core" }
+tiber-hook = { path = "../../crates/tiber-hook" }
+tiber-token = { path = "../tiber_token", features = ["no-entrypoint"] }
+tiber-swap = { path = "../tiber_swap", features = ["no-entrypoint"] }
+tiber-bridge = { path = "../tiber_bridge", features = ["no-entrypoint"] }
+tiber-twins = { path = "../tiber_twins", features = ["no-entrypoint"] }
+
+[lints]
+workspace = true

@@ -1,0 +1,44 @@
+<svg viewBox="0 0 560 560" role="img" aria-label="The she-wolf standing on a half-built wall between two hills, crimson for Romulus and blue for Remus">
+<defs>
+<path id="wolf-wolfRing" d="M 280,280 m -205,0 a 205,205 0 1,1 410,0 a 205,205 0 1,1 -410,0"></path>
+<clipPath id="wolf-wolfField"><circle cx="280" cy="280" r="242"></circle></clipPath>
+</defs>
+<path d="M 280 4 A 276 276 0 0 0 280 556 Z" fill="#B07A3A"></path>
+<path d="M 280 4 A 276 276 0 0 1 280 556 Z" fill="#A8B0B8"></path>
+<path d="M 280 14 A 266 266 0 0 0 280 546 Z" fill="#8A5A2B"></path>
+<path d="M 280 14 A 266 266 0 0 1 280 546 Z" fill="#6E7782"></path>
+<circle cx="280" cy="280" r="254" fill="none" stroke="#E3C08A" stroke-width="5" stroke-dasharray="0.1 11" stroke-linecap="round"></circle>
+<circle cx="280" cy="280" r="242" fill="#1C1A17"></circle>
+<g clip-path="url(#wolf-wolfField)">
+<path d="M 20 560 L 20 410 C 80 362 165 362 236 430 L 236 560 Z" fill="#5E1010"></path>
+<path d="M 540 560 L 540 410 C 480 362 395 362 324 430 L 324 560 Z" fill="#14273F"></path>
+<g fill="#4A4038" stroke="#1C1A17" stroke-width="2">
+<rect x="170" y="400" width="80" height="22"></rect>
+<rect x="250" y="400" width="80" height="22"></rect>
+<rect x="330" y="400" width="74" height="22"></rect>
+<rect x="150" y="422" width="60" height="22"></rect>
+<rect x="210" y="422" width="80" height="22"></rect>
+<rect x="290" y="422" width="80" height="22"></rect>
+<rect x="370" y="422" width="44" height="22"></rect>
+<rect x="140" y="444" width="80" height="22"></rect>
+<rect x="220" y="444" width="80" height="22"></rect>
+<rect x="300" y="444" width="80" height="22"></rect>
+<rect x="380" y="444" width="44" height="22"></rect>
+<rect x="130" y="466" width="60" height="22"></rect>
+<rect x="190" y="466" width="80" height="22"></rect>
+<rect x="270" y="466" width="80" height="22"></rect>
+<rect x="350" y="466" width="80" height="22"></rect>
+<rect x="120" y="488" width="80" height="80"></rect>
+<rect x="200" y="488" width="80" height="80"></rect>
+<rect x="280" y="488" width="80" height="80"></rect>
+<rect x="360" y="488" width="80" height="80"></rect>
+</g>
+<g transform="translate(86.5 182) scale(0.9)">
+<path d="M 312 170 L 300 236 L 290 242 L 310 243 L 324 178 Z" fill="#C9A86E"></path>
+<path d="M 186 174 L 190 236 L 200 242 L 180 243 L 174 178 Z" fill="#C9A86E"></path>
+<path d="M 40 110 L 70 98 L 95 82 L 104 50 L 117 76 L 127 56 L 134 82 L 165 96 L 230 104 L 300 100 L 335 108 L 346 113 C 372 122 392 140 390 168 C 388 180 380 178 378 170 C 372 148 356 136 342 132 L 334 160 L 328 236 L 338 242 L 316 244 L 308 180 L 262 170 L 200 172 L 172 176 L 168 236 L 178 242 L 156 244 L 150 182 L 138 156 L 112 136 L 78 124 L 46 121 Z" fill="#F3D9A4"></path>
+<circle cx="92" cy="93" r="3.5" fill="#1C1A17"></circle>
+</g>
+</g>
+<text font-family="Cinzel, serif" font-size="30" font-weight="700" letter-spacing="5" fill="#F3D9A4"><textPath href="#wolf-wolfRing" startOffset="25%" text-anchor="middle">ROMVLVS · LVPA · REMVS</textPath></text>
+</svg>

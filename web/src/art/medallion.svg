@@ -1,0 +1,48 @@
+<svg viewBox="0 0 560 560" role="img" aria-label="Marble medallion with the overlapping profiles of Romulus and Remus facing right, inscribed ROMVLVS and REMVS">
+<defs>
+<path id="medallion-medLeft" d="M 91.6 411.9 A 230 230 0 0 1 182.8 71.6"></path>
+<path id="medallion-medRight" d="M 377.2 71.6 A 230 230 0 0 1 468.4 411.9"></path>
+<clipPath id="medallion-medField"><circle cx="280" cy="280" r="214"></circle></clipPath>
+<path id="medallion-head" d="M 150 40 C 180 42 202 56 208 78 C 212 92 214 104 216 112 C 214 118 212 122 214 128 C 222 140 234 152 240 162 C 238 168 230 170 222 170 C 224 174 228 178 226 182 C 222 186 220 188 222 192 C 226 196 224 202 216 206 C 214 212 220 218 218 226 C 214 236 202 240 192 242 C 190 262 192 290 200 320 L 210 344 L 70 344 C 84 318 96 290 98 262 C 84 250 70 230 64 204 C 54 164 56 110 80 76 C 98 52 124 40 150 40 Z"></path>
+<path id="medallion-hair" d="M 70 200 C 52 160 56 104 82 72 C 104 46 136 36 164 40 C 188 44 204 58 210 80 C 196 74 182 76 170 84 C 160 92 150 92 140 100 C 128 112 112 118 106 132 C 100 150 104 176 96 200 C 90 214 80 214 70 200 Z"></path>
+</defs>
+<circle cx="280" cy="280" r="276" fill="#CFC6B6"></circle>
+<circle cx="280" cy="280" r="270" fill="#E7E1D6"></circle>
+<circle cx="280" cy="280" r="270" fill="none" stroke="#B9AE9C" stroke-width="2"></circle>
+<circle cx="280" cy="280" r="216" fill="none" stroke="#B9AE9C" stroke-width="3"></circle>
+<circle cx="280" cy="280" r="213" fill="none" stroke="#F6F2EA" stroke-width="1.5"></circle>
+<g font-family="Cinzel, serif" font-size="40" font-weight="700" letter-spacing="10">
+<text fill="#F6F2EA" transform="translate(1.2 1.2)"><textPath href="#medallion-medLeft" startOffset="50%" text-anchor="middle">ROMVLVS</textPath></text>
+<text fill="#857A6A"><textPath href="#medallion-medLeft" startOffset="50%" text-anchor="middle">ROMVLVS</textPath></text>
+<text fill="#F6F2EA" transform="translate(1.2 1.2)"><textPath href="#medallion-medRight" startOffset="50%" text-anchor="middle">REMVS</textPath></text>
+<text fill="#857A6A"><textPath href="#medallion-medRight" startOffset="50%" text-anchor="middle">REMVS</textPath></text>
+</g>
+<g clip-path="url(#medallion-medField)">
+<g transform="translate(166 96)">
+<use href="#medallion-head" fill="#9E9382" transform="translate(5 5)"></use>
+<use href="#medallion-head" fill="#D9D1C3"></use>
+<use href="#medallion-hair" fill="#C6BCAB"></use>
+<g fill="none" stroke="#A39886" stroke-width="2" stroke-linecap="round">
+<path d="M 92 92 q 10 -12 20 0"></path><path d="M 118 70 q 10 -12 20 0"></path><path d="M 146 58 q 10 -12 20 0"></path><path d="M 172 62 q 10 -10 18 0"></path>
+<path d="M 76 120 q 10 -12 20 0"></path><path d="M 104 104 q 10 -12 20 0"></path><path d="M 132 86 q 10 -12 20 0"></path>
+<path d="M 70 150 q 10 -12 20 0"></path><path d="M 78 180 q 8 -10 16 0"></path>
+</g>
+<path d="M 196 118 Q 204 114 210 120 Q 204 124 196 118 Z" fill="#8F8473"></path>
+</g>
+<g transform="translate(120 110)">
+<use href="#medallion-head" fill="#9E9382" transform="translate(6 6)"></use>
+<use href="#medallion-head" fill="#EFEAE1"></use>
+<use href="#medallion-hair" fill="#DDD5C7"></use>
+<g fill="none" stroke="#AEA391" stroke-width="2.2" stroke-linecap="round">
+<path d="M 92 92 q 10 -12 20 0"></path><path d="M 118 70 q 10 -12 20 0"></path><path d="M 146 58 q 10 -12 20 0"></path><path d="M 172 62 q 10 -10 18 0"></path>
+<path d="M 76 120 q 10 -12 20 0"></path><path d="M 104 104 q 10 -12 20 0"></path><path d="M 132 86 q 10 -12 20 0"></path>
+<path d="M 70 150 q 10 -12 20 0"></path><path d="M 78 180 q 8 -10 16 0"></path>
+</g>
+<path d="M 118 140 C 132 134 140 148 138 166 C 136 182 126 190 116 184 C 122 172 124 154 118 140 Z" fill="#CFC6B6" stroke="#AEA391" stroke-width="1.5"></path>
+<path d="M 190 108 Q 202 102 214 110" fill="none" stroke="#AEA391" stroke-width="2" stroke-linecap="round"></path>
+<path d="M 196 118 Q 204 114 210 120 Q 204 124 196 118 Z" fill="#8F8473"></path>
+<path d="M 212 184 L 222 186" stroke="#AEA391" stroke-width="1.6" stroke-linecap="round"></path>
+<path d="M 98 262 C 120 270 160 270 192 256" fill="none" stroke="#B9AE9C" stroke-width="1.5"></path>
+</g>
+</g>
+</svg>

@@ -1,0 +1,237 @@
+/* The Twins of the Tiber. Two hills and a river: Romulus always left, Remus always right, what they
+   share in the river between. */
+
+:root {
+  --night: #1f2440;      /* the Tiber at dusk: the page */
+  --night-deep: #171b31;
+  --palatine: #7a1e22;   /* Romulus */
+  --palatine-deep: #4a0f12;
+  --aventine: #2c4a70;   /* Remus */
+  --aventine-deep: #10223a;
+  --bronze: #b07a3a;     /* lines and shared things */
+  --fire: #e9a04b;       /* Vesta's flame: burns and the tithe */
+  --marble: #e7e1d6;     /* text */
+  --marble-dim: #b9b2a6;
+  --ok: #8fc79a;
+  --err: #f0a08a;
+  --display: "Cinzel", "Trajan Pro", Georgia, serif;
+  --body: "Alegreya Sans", "Gill Sans", "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--night); }
+body {
+  margin: 0;
+  background: var(--night);
+  color: var(--marble);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+a { color: var(--fire); }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--fire); outline-offset: 2px; }
+h1, h2 { font-family: var(--display); font-weight: 700; letter-spacing: 0.02em; margin: 0; }
+.art { display: block; }
+.art svg { display: block; width: 100%; height: auto; }
+
+/* ------------------------------------------------------------------ header */
+.top {
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  padding: 0.75rem clamp(1rem, 4vw, 2.5rem);
+  border-bottom: 1px solid rgba(176, 122, 58, 0.35);
+}
+.brand { display: flex; align-items: center; gap: 0.6rem; color: var(--marble); text-decoration: none; font-family: var(--display); font-size: 1.05rem; margin-right: auto; }
+.brand-wolf { width: 40px; }
+.testnet { font-size: 0.9rem; color: var(--fire); }
+.wallet-adapter-button { font-family: var(--body); background: var(--bronze); color: var(--night-deep); height: 42px; border-radius: 4px; }
+.wallet-adapter-button:not([disabled]):hover { background: var(--fire); }
+
+/* ------------------------------------------------------------------ hero: the banner is the page's one big moment */
+.hero { position: relative; overflow: hidden; }
+.hero { background: #1f2440; }
+.hero-art { margin-top: -6vw; }
+.hero-words {
+  position: relative; z-index: 1; padding: clamp(2rem, 5vw, 3.5rem) 1rem 0;
+  text-align: center;
+}
+.hero h1 { font-size: clamp(1.9rem, 5.2vw, 3.6rem); color: #f7ebd3; line-height: 1.1; }
+.hero p { margin: 0.75rem auto 0; max-width: 34rem; color: #e3d6c2; }
+.hero .choose { font-family: var(--display); color: var(--fire); font-size: clamp(1.1rem, 2.4vw, 1.4rem); letter-spacing: 0.08em; }
+
+/* ------------------------------------------------------------------ messages */
+.banner-msg { margin: 1rem auto 0; max-width: 60rem; padding: 0.7rem 1rem; border-left: 4px solid var(--ok); background: rgba(143, 199, 154, 0.08); }
+.banner-msg.err { border-color: var(--err); background: rgba(240, 160, 138, 0.08); }
+.loading { grid-column: 1 / -1; text-align: center; color: var(--marble-dim); padding: 3rem 0; }
+
+/* ------------------------------------------------------------------ the two hills and the river */
+.hills {
+  display: grid;
+  grid-template-columns: 1fr minmax(15rem, 19rem) 1fr;
+  gap: 0;
+  max-width: 78rem; margin: 2rem auto 0; padding: 0 clamp(1rem, 3vw, 2rem);
+}
+.twin { padding: 1.75rem clamp(1rem, 2.5vw, 2rem) 2rem; }
+.twin-rom { background: linear-gradient(180deg, var(--palatine-deep), rgba(74, 15, 18, 0.25)); border-top: 3px solid var(--palatine); }
+.twin-rem { background: linear-gradient(180deg, var(--aventine-deep), rgba(16, 34, 58, 0.25)); border-top: 3px solid var(--aventine); }
+.coin { width: min(11rem, 60%); margin: 0 auto 1rem; }
+.twin h2 { text-align: center; font-size: 1.9rem; }
+.ticker { font-family: var(--body); font-weight: 500; font-size: 1rem; color: var(--marble-dim); letter-spacing: 0.04em; }
+
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1rem; margin: 1.25rem 0; }
+.facts div { min-width: 0; }
+.facts dt { font-size: 0.85rem; color: var(--marble-dim); }
+.facts dd { margin: 0; font-size: 1.1rem; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+
+.curve p { font-size: 0.92rem; color: var(--marble-dim); margin: 0.4rem 0 0; }
+.bar { height: 10px; background: rgba(231, 225, 214, 0.12); border-radius: 5px; overflow: hidden; }
+.bar span { display: block; height: 100%; background: var(--bronze); }
+.twin-rom .bar span { background: linear-gradient(90deg, var(--palatine), var(--fire)); }
+.twin-rem .bar span { background: linear-gradient(90deg, var(--aventine), #a8b0b8); }
+
+/* trade */
+.trade { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(231, 225, 214, 0.15); }
+.modes { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem; }
+.modes button { font: inherit; padding: 0.5rem; border: 1px solid rgba(231, 225, 214, 0.25); background: transparent; color: var(--marble-dim); cursor: pointer; }
+.modes button[aria-selected="true"] { background: rgba(231, 225, 214, 0.12); color: var(--marble); border-color: var(--bronze); }
+.amount { display: grid; grid-template-columns: 1fr auto; gap: 0.35rem 0.5rem; margin-top: 1rem; }
+.amount span { grid-column: 1 / -1; font-size: 0.9rem; color: var(--marble-dim); }
+.amount input { font: inherit; font-size: 1.25rem; padding: 0.55rem 0.7rem; background: rgba(23, 27, 49, 0.7); color: var(--marble); border: 1px solid rgba(231, 225, 214, 0.25); border-radius: 4px; min-width: 0; }
+.amount .max { font: inherit; background: transparent; border: 1px solid var(--bronze); color: var(--marble); padding: 0 0.8rem; border-radius: 4px; cursor: pointer; }
+.quote { margin: 0.9rem 0 0; }
+.quote div { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.95rem; }
+.quote dt { color: var(--marble-dim); }
+.quote dd { margin: 0; font-variant-numeric: tabular-nums; text-align: right; }
+.quote p, .problem { font-size: 0.92rem; }
+.problem { color: var(--fire); margin: 0.7rem 0 0; }
+.act {
+  display: block; width: 100%; margin-top: 1rem; padding: 0.8rem 1rem;
+  font-family: var(--display); font-size: 1.05rem; letter-spacing: 0.04em;
+  background: var(--marble); color: var(--night-deep); border: 0; border-radius: 4px; cursor: pointer;
+}
+.twin-rom .act { background: #f3d9a4; }
+.twin-rem .act { background: #e8edf2; }
+.act:disabled { opacity: 0.45; cursor: not-allowed; }
+.act.small { font-size: 0.95rem; padding: 0.6rem 0.8rem; background: var(--fire); }
+
+/* the river */
+.river {
+  position: relative;
+  padding: 1.75rem 1.25rem 2rem;
+  background: linear-gradient(180deg, #2e3a5c, var(--night) 80%);
+  border-top: 3px solid var(--bronze);
+  text-align: center;
+}
+.river::before, .river::after { content: ""; position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(176, 122, 58, 0.4); }
+.river::before { left: 0; }
+.river::after { right: 0; }
+.flame { width: 5.5rem; margin: 0 auto 0.75rem; }
+.river h2 { font-size: 1.5rem; }
+.river > p { font-size: 0.95rem; color: var(--marble-dim); }
+.flow { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(231, 225, 214, 0.15); }
+.flow-head { font-family: var(--display); margin: 0; }
+.flow-fund { font-size: 1.5rem; margin: 0.25rem 0 0; color: var(--fire); font-variant-numeric: tabular-nums; }
+.flow-sub { font-size: 0.9rem; color: var(--marble-dim); margin: 0.2rem 0 0; }
+
+/* ------------------------------------------------------------------ the oath and the lore */
+.oath, .lore { max-width: 44rem; margin: 4.5rem auto 0; padding: 0 1.25rem; }
+.oath h2, .lore h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); text-align: center; margin-bottom: 1.75rem; }
+.oath dl { margin: 0; }
+.oath div { display: grid; grid-template-columns: 11rem 1fr; gap: 1rem; padding: 0.9rem 0; border-top: 1px solid rgba(176, 122, 58, 0.35); }
+.oath dt { font-family: var(--display); color: #f3d9a4; }
+.oath dd { margin: 0; }
+.lore p { font-size: 1.15rem; line-height: 1.7; }
+.lore .turn { font-family: var(--display); color: var(--fire); text-align: center; font-size: 1.3rem; margin: 2rem 0; }
+
+.foot { margin-top: 5rem; padding: 2rem 1.25rem 3rem; text-align: center; border-top: 1px solid rgba(176, 122, 58, 0.35); color: var(--marble-dim); }
+.foot .addresses { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+
+/* ------------------------------------------------------------------ small screens: the hills stack, the river between */
+@media (max-width: 880px) {
+  .hills { grid-template-columns: 1fr; padding: 0 1rem; }
+  .river::before, .river::after { display: none; }
+  .hero-art { margin-top: 0; overflow: hidden; }
+  .hero-art svg { height: 260px; width: auto; max-width: none; margin-left: 50%; transform: translateX(-50%); }
+  .oath div { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* ------------------------------------------------------------------ your standing in a city */
+.citizen { margin: 0 0 1.25rem; padding: 0.75rem 0.9rem; border-left: 3px solid var(--bronze); background: rgba(23, 27, 49, 0.45); }
+.citizen p { margin: 0; font-size: 0.95rem; }
+.citizen-rank { font-family: var(--display); color: #f3d9a4; font-size: 1.1rem !important; margin-bottom: 0.2rem !important; }
+
+/* ------------------------------------------------------------------ which city burns brighter */
+.scoreboard { max-width: 60rem; margin: 4.5rem auto 0; padding: 0 1.25rem; }
+.scoreboard h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); text-align: center; }
+.score-lead { text-align: center; color: var(--fire); margin: 0.6rem 0 1.25rem; }
+.tug { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: rgba(231, 225, 214, 0.12); }
+.tug-rom { background: linear-gradient(90deg, var(--palatine), var(--fire)); }
+.tug-rem { background: linear-gradient(90deg, #a8b0b8, var(--aventine)); }
+.cities { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.75rem; }
+.city h3 { font-family: var(--display); font-size: 1.35rem; margin: 0; }
+.city-rem { text-align: right; }
+.city-burned { font-size: 1.4rem; color: var(--fire); margin: 0.2rem 0 0.75rem; font-variant-numeric: tabular-nums; }
+.city dl { margin: 0; }
+.city dl div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.3rem 0; border-top: 1px solid rgba(231, 225, 214, 0.1); font-size: 0.95rem; }
+.city-rem dl div { flex-direction: row-reverse; }
+.city dt { color: var(--marble-dim); }
+.city dd { margin: 0; font-variant-numeric: tabular-nums; }
+.elders-title { font-family: var(--display); margin: 1rem 0 0.3rem; font-size: 0.95rem; color: #f3d9a4; }
+.elders { margin: 0; padding: 0; list-style: none; font-size: 0.9rem; }
+.elders li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.15rem 0; }
+.city-rem .elders li { flex-direction: row-reverse; }
+@media (max-width: 880px) {
+  .cities { grid-template-columns: 1fr; }
+  .city-rem { text-align: left; }
+  .city-rem dl div, .city-rem .elders li { flex-direction: row; }
+}
+
+/* ------------------------------------------------------------------ lighting the flame */
+.flame.flare svg { animation: flare 2.6s ease-out; transform-origin: 50% 90%; }
+@keyframes flare {
+  0% { filter: drop-shadow(0 0 0 rgba(233, 160, 75, 0)); transform: scale(1); }
+  20% { filter: drop-shadow(0 0 28px rgba(233, 160, 75, 0.95)); transform: scale(1.18); }
+  60% { filter: drop-shadow(0 0 16px rgba(233, 160, 75, 0.6)); transform: scale(1.06); }
+  100% { filter: drop-shadow(0 0 0 rgba(233, 160, 75, 0)); transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .flame.flare svg { animation: none; } }
+.offering { color: var(--fire); font-size: 0.95rem; }
+
+/* ------------------------------------------------------------------ keepers of the flame */
+.keepers { max-width: 46rem; margin: 4.5rem auto 0; padding: 0 1.25rem; }
+.keepers h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); text-align: center; }
+.last-lit { display: grid; gap: 0.2rem; margin-bottom: 1rem; text-align: center; color: var(--marble-dim); font-size: 0.95rem; }
+.last-lit p { margin: 0; }
+.keeper-board { list-style: none; margin: 0; padding: 0; }
+.keeper-board li { display: grid; grid-template-columns: 2rem 1fr auto auto; gap: 1rem; align-items: baseline; padding: 0.45rem 0; border-top: 1px solid rgba(231, 225, 214, 0.1); font-variant-numeric: tabular-nums; }
+.keeper-board li.me { color: #f3d9a4; }
+.keeper-n { font-family: var(--display); color: var(--fire); }
+.keeper-burn { color: var(--marble-dim); font-size: 0.9rem; text-align: right; }
+@media (max-width: 560px) { .keeper-board li { grid-template-columns: 1.5rem 1fr auto; } .keeper-burn { grid-column: 2 / -1; text-align: left; } }
+
+/* ------------------------------------------------------------------ the chronicle */
+.chronicle { max-width: 60rem; margin: 4.5rem auto 0; padding: 0 1.25rem; }
+.chronicle h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); text-align: center; }
+.chronicle-city h3 { font-family: var(--display); font-size: 1.25rem; margin: 0 0 0.75rem; }
+.chapter { border-top: 1px solid rgba(231, 225, 214, 0.12); padding: 0.7rem 0; }
+.chapter summary { cursor: pointer; font-family: var(--display); color: #f3d9a4; font-size: 1.05rem; list-style-position: outside; }
+.chapter summary:focus-visible { outline: 2px solid var(--fire); outline-offset: 3px; }
+.chapter p { margin: 0.6rem 0 0; line-height: 1.6; }
+.new { margin-left: 0.6rem; font-family: var(--body); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--night-deep); background: var(--fire); padding: 0.1rem 0.45rem; border-radius: 3px; vertical-align: middle; }
+.chapter.locked { opacity: 0.85; }
+.chapter-title { font-family: var(--display); color: var(--marble-dim); margin: 0; }
+.chapter-teaser { margin: 0.2rem 0 0; font-style: italic; color: var(--marble-dim); }
+.chapter-lock { margin: 0.4rem 0 0; font-size: 0.88rem; color: var(--marble-dim); }
+.lock-bar { display: block; height: 4px; border-radius: 2px; background: rgba(231, 225, 214, 0.12); margin-bottom: 0.3rem; overflow: hidden; }
+.lock-bar span { display: block; height: 100%; background: var(--fire); }
+.finale { max-width: 34rem; margin: 2rem auto 0; text-align: center; }
+.finale .chapter { text-align: left; }
+.chronicle .city-rem { text-align: left; }
+
+/* ------------------------------------------------------------------ the citizen card */
+.card-make { margin-top: 0.6rem; }
+.card-share { margin-top: 0.8rem; }
+.card-share img { width: 100%; height: auto; border-radius: 4px; display: block; }
+.card-actions { display: flex; gap: 0.6rem; margin-top: 0.6rem; flex-wrap: wrap; }
+.card-actions a { text-decoration: none; display: inline-flex; align-items: center; }
+.card-hint { font-size: 0.85rem; color: var(--marble-dim); margin: 0.4rem 0 0 !important; }

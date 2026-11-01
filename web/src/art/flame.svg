@@ -1,0 +1,11 @@
+<svg viewBox="0 0 320 320" role="img" aria-label="Vesta's flame burning in a bronze brazier, the icon for burned tokens">
+<circle cx="160" cy="160" r="150" fill="#1C1A17"></circle>
+<circle cx="160" cy="160" r="141" fill="none" stroke="#B07A3A" stroke-width="3"></circle>
+<path d="M 160 62 C 186 104 218 132 207 174 C 201 198 183 210 160 210 C 137 210 119 198 113 174 C 105 138 138 116 160 62 Z" fill="#D9622B"></path>
+<path d="M 160 118 C 173 144 190 158 183 183 C 180 197 171 204 160 204 C 149 204 140 197 137 183 C 132 162 149 149 160 118 Z" fill="#F2B33D"></path>
+<path d="M 160 160 C 167 172 174 180 170 192 C 168 199 164 202 160 202 C 156 202 152 199 150 192 C 147 182 154 174 160 160 Z" fill="#FBE3A0"></path>
+<path d="M 96 204 L 224 204 Q 214 244 160 248 Q 106 244 96 204 Z" fill="#B07A3A"></path>
+<rect x="96" y="200" width="128" height="8" fill="#8A5A2B"></rect>
+<rect x="151" y="248" width="18" height="20" fill="#8A5A2B"></rect>
+<rect x="124" y="266" width="72" height="9" rx="2" fill="#B07A3A"></rect>
+</svg>

@@ -1,0 +1,30 @@
+[package]
+name = "tax-hook"
+description = "An example Tiber token hook: a programmable transfer fee paid to a collector, with a maximum wallet size. What a transfer hook on Token-2022 cannot do, in forty lines."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "tax_hook"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build", "tiber-hook/idl-build", "tiber-token/idl-build"]
+anchor-debug = []
+custom-heap = []
+custom-panic = []
+
+[dependencies]
+solana-security-txt = { workspace = true }
+anchor-lang = { workspace = true }
+tiber-core = { path = "../../crates/tiber-core" }
+tiber-hook = { path = "../../crates/tiber-hook" }
+tiber-token = { path = "../tiber_token", features = ["no-entrypoint"] }
+
+[lints]
+workspace = true

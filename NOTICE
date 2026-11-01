@@ -1,0 +1,7 @@
+Tiber programs
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This software includes code derived from an Apache-2.0 licensed open-source Solana
+token and exchange codebase. The files in this repository have been modified from
+that original: programs, crates and identifiers were renamed, unused programs were
+removed, and new program addresses and authorities were set.

@@ -1,0 +1,53 @@
+<svg viewBox="0 0 1440 600" aria-hidden="true">
+<rect x="0" y="250" width="1440" height="350" fill="#2E2747"></rect>
+<rect x="0" y="330" width="1440" height="270" fill="#4A2E45"></rect>
+<rect x="0" y="390" width="1440" height="210" fill="#7A3A3E"></rect>
+<circle cx="720" cy="410" r="62" fill="#E9A04B"></circle>
+<path d="M 652 600 C 690 520 700 470 712 412 L 728 412 C 740 470 750 520 788 600 Z" fill="#6E86A6"></path>
+<path d="M 0 600 L 0 360 C 140 262 320 240 450 290 C 560 332 612 430 652 600 Z" fill="#4A0F12"></path>
+<path d="M 1440 600 L 1440 360 C 1300 262 1120 240 990 290 C 880 332 828 430 788 600 Z" fill="#10223A"></path>
+<g fill="#F3D9A4">
+<polygon points="296,228 336,210 376,228"></polygon>
+<rect x="298" y="228" width="76" height="6"></rect>
+<rect x="304" y="234" width="7" height="26"></rect>
+<rect x="320" y="234" width="7" height="26"></rect>
+<rect x="345" y="234" width="7" height="26"></rect>
+<rect x="361" y="234" width="7" height="26"></rect>
+<rect x="294" y="260" width="84" height="7"></rect>
+</g>
+<g fill="#E8EDF2">
+<rect x="1094" y="214" width="34" height="54"></rect>
+<rect x="1090" y="206" width="10" height="10"></rect>
+<rect x="1106" y="206" width="10" height="10"></rect>
+<rect x="1122" y="206" width="10" height="10"></rect>
+<rect x="1084" y="266" width="54" height="7"></rect>
+</g>
+<rect x="1106" y="228" width="10" height="16" rx="5" fill="#10223A"></rect>
+<g fill="none" stroke="#F3D9A4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path transform="translate(189.0 198.7) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(203.8 168.9) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(224.8 143.1) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(250.9 122.5) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(280.9 108.2) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(313.4 100.9) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(346.6 100.9) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(379.1 108.2) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(409.1 122.5) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(435.2 143.1) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(456.2 168.9) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(471.0 198.7) scale(1.40)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path>
+</g>
+<g fill="none" stroke="#E8EDF2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+<path transform="translate(988.8 180.0) scale(1.60)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(1027.7 136.7) scale(1.60)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(1080.9 113.1) scale(1.60)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(1139.1 113.1) scale(1.60)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(1192.3 136.7) scale(1.60)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path><path transform="translate(1231.2 180.0) scale(1.60)" d="M -9 0 Q -4.5 -6 0 0 Q 4.5 -6 9 0"></path>
+</g>
+<g fill="#4A4038" stroke="#1C1A17" stroke-width="2">
+<rect x="600" y="470" width="70" height="20"></rect>
+<rect x="670" y="470" width="70" height="20"></rect>
+<rect x="740" y="470" width="70" height="20"></rect>
+<rect x="590" y="490" width="50" height="20"></rect>
+<rect x="640" y="490" width="70" height="20"></rect>
+<rect x="710" y="490" width="70" height="20"></rect>
+<rect x="780" y="490" width="60" height="20"></rect>
+<rect x="580" y="510" width="70" height="20"></rect>
+<rect x="650" y="510" width="70" height="20"></rect>
+<rect x="720" y="510" width="70" height="20"></rect>
+<rect x="790" y="510" width="60" height="20"></rect>
+<rect x="570" y="530" width="300" height="70"></rect>
+</g>
+<g transform="translate(602 337) scale(0.55)">
+<path d="M 312 170 L 300 236 L 290 242 L 310 243 L 324 178 Z" fill="#C9A86E"></path>
+<path d="M 186 174 L 190 236 L 200 242 L 180 243 L 174 178 Z" fill="#C9A86E"></path>
+<path d="M 40 110 L 70 98 L 95 82 L 104 50 L 117 76 L 127 56 L 134 82 L 165 96 L 230 104 L 300 100 L 335 108 L 346 113 C 372 122 392 140 390 168 C 388 180 380 178 378 170 C 372 148 356 136 342 132 L 334 160 L 328 236 L 338 242 L 316 244 L 308 180 L 262 170 L 200 172 L 172 176 L 168 236 L 178 242 L 156 244 L 150 182 L 138 156 L 112 136 L 78 124 L 46 121 Z" fill="#F3D9A4"></path>
+<circle cx="92" cy="93" r="3.5" fill="#1C1A17"></circle>
+</g>
+<rect x="0" y="584" width="1440" height="16" fill="#1C1A17"></rect>
+</svg>
