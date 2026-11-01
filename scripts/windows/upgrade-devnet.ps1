@@ -41,6 +41,13 @@ try {
   $marks = "$kit\upgrade-review"
   New-Item -ItemType Directory -Force -Path $marks | Out-Null
   $sol = { [double](((& $solana balance -u $url -k $deployer) -split " ")[0]) }
+  # An upload the busy public devnet server cut off leaves its buffer behind, holding the program's
+  # rent. Close any such buffers first, so their SOL comes back to the deployer.
+  $closeBuffers = {
+    Write-Host "== Recovering SOL from any unfinished uploads"
+    & $solana program close --buffers -u $url -k $deployer 2>&1 | ForEach-Object { Write-Host "   $_" }
+  }
+  & $closeBuffers
   $rentOf = { param($bytes) [double]((((& $solana rent -u $url -k $deployer $bytes) -join " ") -replace '.*minimum:\s*([0-9.]+).*', '$1')) }
 
   # What the upgrades need: the largest program's rent for the few minutes its upgrade buffer
@@ -64,8 +71,17 @@ try {
   foreach ($p in $todo) {
     $so = "$new\$p.so"
     Write-Host "== Upgrading $p ($($ids[$p]), $((Get-Item $so).Length) bytes)"
-    & $solana program deploy -u $url -k $deployer --program-id "$kit\keys\$p-keypair.json" --upgrade-authority $deployer --max-sign-attempts 30 $so
-    if ($LASTEXITCODE -ne 0) { throw "upgrade of $p failed; run this again to resume" }
+    # The free devnet server often times out mid-upload: try up to three times, recovering the
+    # cut-off upload's SOL in between.
+    $ok = $false
+    foreach ($try in 1..3) {
+      & $solana program deploy -u $url -k $deployer --program-id "$kit\keys\$p-keypair.json" --upgrade-authority $deployer --max-sign-attempts 30 $so
+      if ($LASTEXITCODE -eq 0) { $ok = $true; break }
+      Write-Host "!! The devnet server cut off the upload of $p (try $try of 3)."
+      & $closeBuffers
+      if ($try -lt 3) { Write-Host "   Waiting 20 seconds, then trying again..."; Start-Sleep -Seconds 20 }
+    }
+    if (-not $ok) { throw "upgrade of $p failed three times (the devnet server is busy); wait a few minutes and run this again to resume" }
     Copy-Item -Force $so "$kit\programs\$p.so"
     New-Item -ItemType File -Force -Path "$marks\$p.done" | Out-Null
   }
