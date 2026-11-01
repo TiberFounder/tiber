@@ -32,11 +32,11 @@ Steps outside the code that the website's promises depend on:
    `launch_protocol_share_bps: 0` (a pool keeps the share it was created with for life: anything
    above 0 sends part of every buy tax to the fee collector instead of the tithe) and
    `paused: false`.
-3. Right after deploying, move the upgrade authority of all five programs to a multisig (for
-   example Squads) of fresh keys that needs at least two of them to agree. The website says so.
-4. After the first weeks, once the twins have traded without trouble, remove upgrades for good
-   (`solana program set-upgrade-authority <program> --final`, through the multisig) and give up
-   each twin's metadata authority (`set_authority`, kind `Metadata`, to none).
+3. The programs stay upgradeable by one key, on purpose: the hooks are experimental and meant to
+   change. That key controls all five programs, so keep it fresh, offline (a hardware wallet is
+   best) and off any machine that runs other software, and never reuse it as an everyday wallet.
+4. Optionally, once the name and logo are final, give up each twin's metadata authority
+   (`set_authority`, kind `Metadata`, to none).
 
 ## License
 

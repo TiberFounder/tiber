@@ -676,7 +676,7 @@ function Oath() {
     ["The first thirty seconds", "The buy tax starts at 80% when trading opens and falls to 2% over 30 seconds, so bots gain nothing by being first. What they pay feeds the sister's tithe."],
     ["The treasury", "5% of each twin: 50,000,000. 10,000,000 can be used from launch; the other 40,000,000 are locked by code for six months after trading opens. At most 1,000,000 can leave the treasury on any day, ever. The other 95% goes to buyers: 71.25% on the curve and 23.75% into the pool at graduation."],
     ["The curve", "Each twin starts on a bonding curve. At 30 SOL raised it graduates into a pool, and its liquidity is locked: the programs have no instruction that moves it, for anyone."],
-    ["Written in code", "No one can mint more, freeze a holder, or pause the twins' trading. The programs enforce these rules, not a person. For the first weeks after launch the programs can still be upgraded, so a bug can be fixed; that power sits with a multisig that needs several separate keys to agree. Then upgrades are switched off for good, which anyone can check on the explorer."],
+    ["Written in code", "No one can mint more, freeze a holder, or pause the twins' trading: the programs enforce these rules, not a person. The programs are experimental and stay upgradeable, so the founder's key can fix bugs and add to the rules later. Anyone can see on the explorer who holds that key and when a program last changed."],
   ];
   return (
     <section className="oath" aria-labelledby="oath-title">
