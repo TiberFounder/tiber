@@ -52,6 +52,19 @@ async function fails(ixs: TransactionInstruction[], signers: Keypair[], payer: K
   }
 }
 
+/** `read()` once two reads 2 seconds apart agree: the public devnet RPC answers from several
+ * nodes, and under load one can be a transaction or two behind the one that just confirmed. */
+async function settled<T>(read: () => Promise<T>): Promise<T> {
+  let last = await read();
+  for (let i = 0; i < 10; i++) {
+    await new Promise((r) => setTimeout(r, 2000));
+    const next = await read();
+    if (next === last) return next;
+    last = next;
+  }
+  return last;
+}
+
 /** A wallet with `sol` of SOL, `wrapped` of it bridged, and empty holdings of both twins. */
 async function wallet(sol: bigint, wrapped: bigint): Promise<Keypair> {
   const kp = Keypair.generate();
@@ -115,7 +128,7 @@ for (let i = 0; i < 40; i++) {
     break;
   }
 }
-held = await t.balance(ROM, whale.publicKey);
+held = await settled(() => t.balance(ROM, whale.publicKey));
 check("and holds no more than 15,000,000", held <= HOLD_CAP && held > (HOLD_CAP * 9n) / 10n, `${held / 1_000_000n} ROM`);
 const aliceRom = await t.balance(ROM, alice.publicKey);
 [ok, why] = await fails([await t.transferTwin(alice.publicKey, ROM, whale.publicKey, aliceRom)], [], alice, "OverTheWall");
@@ -135,14 +148,14 @@ const holdingNote = async (owner: PublicKey, mint: PublicKey) => {
 };
 const note = await holdingNote(alice.publicKey, ROM);
 check("the Wall notes when a holder's tokens arrived", note.version === 1 && Math.abs(Date.now() / 1000 - note.since) < 600, `${Math.round(Date.now() / 1000 - note.since)}s ago`);
-const s0 = await supply(ROM);
+const s0 = await settled(() => supply(ROM));
 const sold = aliceRom / 2n;
 await sell(alice, ROM, REM, sold);
-check("a sell within a day of buying burns exactly 5%", s0 - (await supply(ROM)) === (sold * 5n) / 100n);
+check("a sell within a day of buying burns exactly 5%", s0 - (await settled(() => supply(ROM))) === (sold * 5n) / 100n);
 
 // 7. The tithe.
 const fund = await fundFor(REM);
-const remSupply = await supply(REM);
+const remSupply = await settled(() => supply(REM));
 const romFund = await fundFor(ROM);
 // The tithe's record keeps a running total, so a pair tithed before (an earlier run) counts from
 // what it held before this tithe.
@@ -151,7 +164,7 @@ await t.send([await t.titheIx(admin.publicKey, REM, ROM)]);
 const rec = await t.titheRecord(REM);
 const burned = BigInt(rec.burned.toString()) - burnedBefore;
 check("the tithe spends the fund buying REM", (await fundFor(REM)) < fund, `${Number(fund - (await fundFor(REM))) / 1e9} SOL spent`);
-check("and burns every REM it bought", remSupply - (await supply(REM)) === burned && burned > 0n, `${burned / 1_000_000n} REM burned`);
+check("and burns every REM it bought", remSupply - (await settled(() => supply(REM))) === burned && burned > 0n, `${burned / 1_000_000n} REM burned`);
 check("and pays no tax itself", (await fundFor(ROM)) === romFund);
 check("and keeps nothing", (await t.balance(REM, buyerAddress(REM))) === 0n);
 [ok, why] = await fails([await t.titheIx(admin.publicKey, ROM, REM), await t.titheIx(admin.publicKey, ROM, REM)], [], admin, "OncePerSlot");
