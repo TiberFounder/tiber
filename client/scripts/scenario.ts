@@ -144,9 +144,12 @@ check("a sell within a day of buying burns exactly 5%", s0 - (await supply(ROM))
 const fund = await fundFor(REM);
 const remSupply = await supply(REM);
 const romFund = await fundFor(ROM);
+// The tithe's record keeps a running total, so a pair tithed before (an earlier run) counts from
+// what it held before this tithe.
+const burnedBefore = await t.titheRecord(REM).then((r: any) => BigInt(r.burned.toString())).catch(() => 0n);
 await t.send([await t.titheIx(admin.publicKey, REM, ROM)]);
 const rec = await t.titheRecord(REM);
-const burned = BigInt(rec.burned.toString());
+const burned = BigInt(rec.burned.toString()) - burnedBefore;
 check("the tithe spends the fund buying REM", (await fundFor(REM)) < fund, `${Number(fund - (await fundFor(REM))) / 1e9} SOL spent`);
 check("and burns every REM it bought", remSupply - (await supply(REM)) === burned && burned > 0n, `${burned / 1_000_000n} REM burned`);
 check("and pays no tax itself", (await fundFor(ROM)) === romFund);
