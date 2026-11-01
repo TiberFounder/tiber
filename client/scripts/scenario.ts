@@ -119,9 +119,15 @@ check("one buy cannot take more than 1% of the supply", ok, why);
 // 4. The 1.5% holding cap.
 const whale = await wallet((SOL * 8n) / 10n, (SOL * 6n) / 10n);
 let held = 0n;
+// The tokens the last buy that went through brought. The one the wall refused, at a higher price,
+// would have brought a little less, so the wallet ends within one such step of the cap.
+let step = 0n;
 for (let i = 0; i < 40; i++) {
   try {
     await buy(whale, ROM, REM, SOL / 20n);
+    const now = await settled(() => t.balance(ROM, whale.publicKey));
+    step = now - held;
+    held = now;
   } catch (e: any) {
     const text = `${e?.message ?? e} ${(e?.transactionLogs ?? e?.logs ?? []).join(" ")}`;
     check("a wallet cannot buy past 1.5% of the supply", text.includes("OverTheWall"), text.match(/Error Code: (\w+)/)?.[1] ?? "");
@@ -129,7 +135,11 @@ for (let i = 0; i < 40; i++) {
   }
 }
 held = await settled(() => t.balance(ROM, whale.publicKey));
-check("and holds no more than 15,000,000", held <= HOLD_CAP && held > (HOLD_CAP * 9n) / 10n, `${held / 1_000_000n} ROM`);
+check(
+  "and holds no more than 15,000,000",
+  held <= HOLD_CAP && step > 0n && held + step > HOLD_CAP,
+  `${held / 1_000_000n} ROM, one more buy of about ${step / 1_000_000n} would cross it`,
+);
 const aliceRom = await t.balance(ROM, alice.publicKey);
 [ok, why] = await fails([await t.transferTwin(alice.publicKey, ROM, whale.publicKey, aliceRom)], [], alice, "OverTheWall");
 check("nor can someone send it more", ok, why);
